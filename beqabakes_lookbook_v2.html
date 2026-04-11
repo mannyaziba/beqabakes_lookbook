@@ -1,0 +1,684 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Mulish:wght@300;400;500;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#FFF5F0;--blush:#FFE3E9;--rose:#C85A7A;--rose-dark:#A8435F;
+  --rose-light:#F0A0B8;--petal:#FFF0F4;--text:#2E1A1A;--mid:#7A5060;
+  --light:#B89098;--white:#FFFFFF;--card-border:rgba(200,90,122,0.13);
+}
+body{font-family:'Mulish',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden}
+.lb{max-width:480px;margin:0 auto}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:rgba(255,245,240,0.97);backdrop-filter:blur(10px);border-bottom:1px solid rgba(200,90,122,0.12);padding:10px 20px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:8px}
+.nav-icon{width:28px;height:28px}
+.nav-brand{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--rose)}
+.nav-pills{display:flex;gap:5px}
+.npill{width:6px;height:6px;border-radius:50%;background:var(--blush);border:1.5px solid var(--rose-light);cursor:pointer;transition:all .2s}
+.npill.on{background:var(--rose);border-color:var(--rose);width:18px;border-radius:4px}
+
+/* PAGES */
+.pg{padding:64px 24px;position:relative}
+.pg-alt{background:#FFFBFC}
+.divider{height:6px;background:linear-gradient(90deg,#FFE3E9,#FFD0DC,#FFE3E9);opacity:.6}
+
+/* COVER */
+.cover{background:linear-gradient(150deg,#fff8fa 0%,#ffe3e9 55%,#ffd0dc 100%);text-align:center;padding:80px 32px;display:flex;flex-direction:column;align-items:center}
+.cover-chip{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--rose);background:rgba(200,90,122,0.1);padding:6px 16px;border-radius:20px;margin-bottom:28px}
+.hero-icon{width:88px;height:88px;margin:0 auto 28px;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.cover-h1{font-family:'Playfair Display',serif;font-size:46px;font-weight:700;line-height:1.15;color:var(--text);margin-bottom:16px}
+.cover-sub{font-family:'Playfair Display',serif;font-size:15px;font-style:italic;color:var(--mid);line-height:1.7;margin-bottom:8px}
+.cover-support{font-size:13px;color:var(--light);margin-bottom:36px}
+.cover-badges{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:28px}
+.cbadge{font-size:11px;font-weight:600;color:var(--mid);background:white;padding:6px 14px;border-radius:20px;border:1px solid rgba(200,90,122,0.18)}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--rose);color:white;font-family:'Mulish',sans-serif;font-size:14px;font-weight:700;padding:15px 28px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;transition:all .2s;letter-spacing:.3px}
+.btn:hover{background:var(--rose-dark);transform:translateY(-2px)}
+.btn-sm{background:var(--rose);color:white;font-size:12px;font-weight:700;padding:9px 18px;border-radius:20px;border:none;cursor:pointer;text-decoration:none;transition:background .2s;white-space:nowrap;display:inline-block}
+.btn-sm:hover{background:var(--rose-dark)}
+.btn-big{display:block;width:100%;background:var(--rose);color:white;font-family:'Mulish',sans-serif;font-size:17px;font-weight:700;padding:20px;border-radius:50px;border:none;cursor:pointer;letter-spacing:.3px;transition:all .2s;text-decoration:none;text-align:center}
+.btn-big:hover{background:var(--rose-dark);transform:translateY(-2px)}
+
+/* SECTION HEADER */
+.slabel{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--rose);margin-bottom:8px}
+.stitle{font-family:'Playfair Display',serif;font-size:30px;font-weight:700;color:var(--text);line-height:1.2;margin-bottom:6px}
+.ssub{font-family:'Playfair Display',serif;font-size:14px;font-style:italic;color:var(--mid);margin-bottom:32px}
+
+/* HOW */
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:32px}
+.how-card{background:white;border-radius:20px;padding:22px 14px;text-align:center;border:1px solid var(--card-border)}
+.how-icon{width:40px;height:40px;margin:0 auto 12px}
+.how-n{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--rose);margin-bottom:5px}
+.how-t{font-family:'Playfair Display',serif;font-size:13px;font-weight:600;color:var(--text);margin-bottom:5px}
+.how-l{font-size:11px;color:var(--mid);line-height:1.5}
+.how-foot{text-align:center;font-size:13px;color:var(--mid);font-style:italic;font-family:'Playfair Display',serif;margin-bottom:24px}
+
+/* MICRO TAGS */
+.micros{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.mtag{font-size:11px;font-weight:700;color:var(--rose);background:rgba(200,90,122,0.08);padding:5px 12px;border-radius:20px;letter-spacing:.3px}
+
+/* PRODUCT CARDS */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:32px}
+.pcard{background:white;border-radius:20px;overflow:hidden;border:1px solid var(--card-border);transition:transform .2s,box-shadow .2s;cursor:pointer;text-decoration:none;color:inherit;display:block}
+.pcard:hover{transform:translateY(-3px);box-shadow:0 14px 36px rgba(200,90,122,0.14)}
+.pcard-img{height:130px;display:flex;align-items:center;justify-content:center}
+.pcard-img svg{width:60px;height:60px}
+.pcard-body{padding:14px}
+.pcard-name{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px}
+.pcard-price{font-size:12px;font-weight:700;color:var(--rose);margin-bottom:4px}
+.pcard-em{font-size:11px;color:var(--light);margin-bottom:10px;line-height:1.4}
+.pcard-cta{font-size:12px;font-weight:700;color:var(--rose);display:flex;align-items:center;gap:3px}
+
+/* BENTO */
+.spills{display:flex;gap:10px;margin-bottom:22px}
+.spill{flex:1;padding:12px;border-radius:14px;text-align:center;border:2px solid var(--rose);cursor:pointer;transition:all .2s}
+.spill.on{background:var(--rose);color:white}
+.spill:not(.on){background:white;color:var(--rose)}
+.spill-name{font-size:15px;font-weight:700;display:block}
+.spill-price{font-size:12px;opacity:.85}
+.blist{display:flex;flex-direction:column;gap:10px;margin-bottom:32px}
+.bcard{background:white;border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:14px;border:1px solid var(--card-border);transition:transform .15s;text-decoration:none;color:inherit;cursor:pointer}
+.bcard:hover{transform:translateX(4px)}
+.bcard-icon{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.bcard-icon svg{width:28px;height:28px}
+.bcard-info{flex:1}
+.bcard-name{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px}
+.bcard-desc{font-size:11px;color:var(--mid);margin-bottom:4px}
+.bcard-price{font-size:12px;font-weight:700;color:var(--rose)}
+.bcard-arr{color:var(--rose-light);font-size:20px;flex-shrink:0}
+
+/* SIGNATURE */
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:32px}
+.scard{background:white;border-radius:20px;overflow:hidden;border:1px solid var(--card-border);transition:transform .2s;cursor:pointer;text-decoration:none;color:inherit;display:block}
+.scard:hover{transform:translateY(-3px)}
+.scard-img{height:150px;display:flex;align-items:center;justify-content:center}
+.scard-img svg{width:64px;height:64px}
+.scard-body{padding:14px}
+.scard-name{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px}
+.scard-msg{font-size:11px;color:var(--mid);font-style:italic;font-family:'Playfair Display',serif;margin-bottom:4px}
+.scard-price{font-size:12px;font-weight:700;color:var(--rose);margin-bottom:10px}
+.sfooter{font-size:12px;text-align:center;color:var(--light);font-style:italic;margin-bottom:24px;font-family:'Playfair Display',serif}
+
+/* GIFTS */
+.glist{display:flex;flex-direction:column;gap:14px;margin-bottom:32px}
+.gcard{background:white;border-radius:22px;overflow:hidden;border:1px solid var(--card-border);cursor:pointer;transition:transform .2s,box-shadow .2s;text-decoration:none;color:inherit;display:block}
+.gcard:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(200,90,122,0.13)}
+.gcard-img{height:160px;display:flex;align-items:center;justify-content:center;position:relative}
+.gcard-img svg{width:72px;height:72px}
+.glabel{position:absolute;top:10px;left:10px;background:var(--rose);color:white;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px}
+.gcard-body{padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.gcard-info{flex:1}
+.gcard-name{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:2px}
+.gcard-em{font-size:12px;color:var(--mid);font-style:italic;font-family:'Playfair Display',serif}
+.gcard-right{text-align:right;flex-shrink:0}
+.gcard-price{font-size:18px;font-weight:700;color:var(--rose);margin-bottom:8px}
+
+/* ADDONS */
+.alist{display:flex;flex-direction:column;margin-bottom:32px}
+.arow{display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid rgba(200,90,122,0.1)}
+.arow:last-child{border-bottom:none}
+.arow-icon{width:44px;height:44px;border-radius:12px;background:var(--petal);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.arow-icon svg{width:22px;height:22px}
+.arow-name{flex:1;font-family:'Playfair Display',serif;font-size:15px;font-weight:600;color:var(--text)}
+.arow-price{font-size:14px;font-weight:700;color:var(--rose)}
+.arow-incl{font-size:11px;background:rgba(200,90,122,0.1);color:var(--rose);padding:4px 12px;border-radius:20px;font-weight:700}
+
+/* ORDER */
+.order-pg{background:linear-gradient(150deg,#fff8fa 0%,#ffe3e9 100%);text-align:center;padding:80px 28px}
+.osteps{display:flex;flex-direction:column;gap:10px;margin:28px 0}
+.ostep{display:flex;align-items:center;gap:14px;background:white;border-radius:16px;padding:14px 18px;border:1px solid var(--card-border);text-align:left}
+.ostep-n{width:34px;height:34px;border-radius:50%;background:var(--rose);color:white;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ostep-t{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--text)}
+.ostep-s{font-size:12px;color:var(--mid)}
+.oreassure{font-size:13px;color:var(--mid);font-style:italic;font-family:'Playfair Display',serif;margin-bottom:28px;line-height:1.8}
+.ofooter{margin-top:32px;padding-top:24px;border-top:1px solid rgba(200,90,122,0.2);text-align:center}
+.of-brand{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--rose);margin-bottom:4px}
+.of-tag{font-size:12px;color:var(--light);font-style:italic}
+
+/* WIDE CARD */
+.pcard-wide{grid-column:1/-1;display:flex;align-items:center;border-radius:20px;overflow:hidden}
+.pcard-wide .pcard-img{width:110px;height:90px;flex-shrink:0;font-size:36px}
+.pcard-wide .pcard-body{flex:1}
+</style>
+
+<div class="lb">
+
+<!-- NAV -->
+<div class="nav">
+  <div class="nav-logo">
+    <svg class="nav-icon" viewBox="0 0 28 28" fill="none">
+      <rect width="28" height="28" rx="8" fill="#FFE3E9"/>
+      <path d="M14 6C10.5 6 7 8.5 7 12c0 1.5.6 2.8 1.5 3.8L7 22h14l-1.5-6.2C20.4 14.8 21 13.5 21 12c0-3.5-3.5-6-7-6z" fill="#C85A7A" opacity=".3"/>
+      <path d="M9 12.5C9 10 11.2 8 14 8s5 2 5 4.5c0 1.2-.5 2.3-1.3 3.1L19 20H9l1.3-4.4C9.5 14.8 9 13.7 9 12.5z" fill="#C85A7A"/>
+      <rect x="11" y="4" width="6" height="3" rx="1.5" fill="#C85A7A" opacity=".5"/>
+      <rect x="10" y="20" width="8" height="2" rx="1" fill="#A8435F"/>
+    </svg>
+    <span class="nav-brand">BeqaBakes</span>
+  </div>
+  <div class="nav-pills">
+    <div class="npill on" onclick="goTo('cover')"></div>
+    <div class="npill" onclick="goTo('how')"></div>
+    <div class="npill" onclick="goTo('picks')"></div>
+    <div class="npill" onclick="goTo('bento')"></div>
+    <div class="npill" onclick="goTo('sig')"></div>
+    <div class="npill" onclick="goTo('gifts')"></div>
+    <div class="npill" onclick="goTo('order')"></div>
+  </div>
+</div>
+
+<!-- COVER -->
+<div class="pg cover" id="cover">
+  <div class="cover-chip">Lagos · Abuja · Delivered Fresh</div>
+  <svg class="hero-icon" viewBox="0 0 88 88" fill="none">
+    <circle cx="44" cy="44" r="44" fill="#FFE3E9"/>
+    <rect x="20" y="52" width="48" height="20" rx="6" fill="#C85A7A"/>
+    <rect x="16" y="44" width="56" height="12" rx="6" fill="#D97090"/>
+    <rect x="24" y="32" width="40" height="16" rx="6" fill="#E890A8"/>
+    <rect x="36" y="20" width="16" height="14" rx="8" fill="#F0A8BC"/>
+    <circle cx="44" cy="20" r="4" fill="#C85A7A"/>
+    <rect x="22" y="44" width="6" height="8" rx="2" fill="white" opacity=".3"/>
+    <rect x="32" y="44" width="6" height="8" rx="2" fill="white" opacity=".3"/>
+    <rect x="50" y="44" width="6" height="8" rx="2" fill="white" opacity=".3"/>
+    <rect x="60" y="44" width="6" height="8" rx="2" fill="white" opacity=".3"/>
+  </svg>
+  <h1 class="cover-h1">Send a cake<br>in minutes</h1>
+  <p class="cover-sub">Because Beqa dey Bake.<br>Every box feels like a celebration.</p>
+  <p class="cover-support">No stress. Just pick and send.</p>
+  <a class="btn" href="https://cbl.link/Qdh3fD8">Order now on WhatsApp →</a>
+  <div class="cover-badges">
+    <span class="cbadge">Ready today</span>
+    <span class="cbadge">Send in minutes</span>
+    <span class="cbadge">Pick. Pay. Done.</span>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- HOW IT WORKS -->
+<div class="pg" id="how">
+  <div class="slabel">Simple process</div>
+  <h2 class="stitle">How it works</h2>
+  <p class="ssub">Takes less than 5 minutes.</p>
+  <div class="how-grid">
+    <div class="how-card">
+      <svg class="how-icon" viewBox="0 0 40 40" fill="none">
+        <rect width="40" height="40" rx="12" fill="#FFE3E9"/>
+        <rect x="10" y="20" width="20" height="14" rx="4" fill="#C85A7A"/>
+        <rect x="8" y="16" width="24" height="6" rx="3" fill="#D97090"/>
+        <rect x="14" y="10" width="12" height="8" rx="4" fill="#E890A8"/>
+        <circle cx="20" cy="10" r="3" fill="#C85A7A"/>
+      </svg>
+      <div class="how-n">Step 01</div>
+      <div class="how-t">Pick your cake</div>
+      <div class="how-l">Choose what fits your moment</div>
+    </div>
+    <div class="how-card">
+      <svg class="how-icon" viewBox="0 0 40 40" fill="none">
+        <rect width="40" height="40" rx="12" fill="#FFE3E9"/>
+        <rect x="10" y="10" width="20" height="22" rx="4" fill="#E890A8"/>
+        <line x1="14" y1="17" x2="26" y2="17" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <line x1="14" y1="21" x2="26" y2="21" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <line x1="14" y1="25" x2="22" y2="25" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="28" cy="28" r="5" fill="#C85A7A"/>
+        <line x1="26" y1="28" x2="28" y2="30" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="28" y1="30" x2="31" y2="26" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <div class="how-n">Step 02</div>
+      <div class="how-t">Add your note</div>
+      <div class="how-l">Say what you feel — we'll write it</div>
+    </div>
+    <div class="how-card">
+      <svg class="how-icon" viewBox="0 0 40 40" fill="none">
+        <rect width="40" height="40" rx="12" fill="#FFE3E9"/>
+        <rect x="10" y="14" width="20" height="18" rx="4" fill="#D97090"/>
+        <path d="M10 18l10 7 10-7" stroke="#C85A7A" stroke-width="1.5"/>
+        <path d="M24 11l4 3-4 3" stroke="#C85A7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <line x1="18" y1="14" x2="28" y2="14" stroke="#C85A7A" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <div class="how-n">Step 03</div>
+      <div class="how-t">Choose delivery</div>
+      <div class="how-l">We handle the rest</div>
+    </div>
+  </div>
+  <p class="how-foot">"No stress. Just send."</p>
+  <div style="text-align:center"><a class="btn" href="https://cbl.link/Qdh3fD8">Start your order →</a></div>
+</div>
+
+<div class="divider"></div>
+
+<!-- QUICK PICKS -->
+<div class="pg pg-alt" id="picks">
+  <div class="slabel">⚡ Ready Today</div>
+  <h2 class="stitle">Quick Picks</h2>
+  <p class="ssub">Most popular moments, sorted.</p>
+  <div class="micros">
+    <span class="mtag">No stress</span>
+    <span class="mtag">Ready today</span>
+    <span class="mtag">Pick. Pay. Done.</span>
+  </div>
+  <div class="grid2">
+    <!-- Birthday -->
+    <a class="pcard" href="https://cbl.link/Qdh3fD8">
+      <div class="pcard-img" style="background:#FFF0F4">
+        <svg viewBox="0 0 60 60" fill="none"><rect width="60" height="60" rx="16" fill="#FFE3E9"/>
+        <rect x="14" y="34" width="32" height="16" rx="5" fill="#C85A7A"/>
+        <rect x="10" y="28" width="40" height="9" rx="5" fill="#D97090"/>
+        <rect x="18" y="20" width="24" height="11" rx="5" fill="#E890A8"/>
+        <rect x="28" y="12" width="5" height="10" rx="2.5" fill="#F0A8BC"/>
+        <ellipse cx="30" cy="12" rx="3" ry="4" fill="#C85A7A" opacity=".6"/></svg>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-name">Happy Birthday</div>
+        <div class="pcard-price">₦8,000 / ₦10,000</div>
+        <div class="pcard-em">Simple birthday, no stress</div>
+        <div class="pcard-cta">Order this <span>→</span></div>
+      </div>
+    </a>
+    <!-- Just Because -->
+    <a class="pcard" href="https://cbl.link/Qdh3fD8">
+      <div class="pcard-img" style="background:#FFF5F8">
+        <svg viewBox="0 0 60 60" fill="none"><rect width="60" height="60" rx="16" fill="#FFE3E9"/>
+        <path d="M30 46C30 46 12 36 12 24a10 10 0 0120 0 10 10 0 0120 0c0 12-18 22-22 22z" fill="#C85A7A"/></svg>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-name">Just Because</div>
+        <div class="pcard-price">₦8,000 / ₦10,000</div>
+        <div class="pcard-em">You don't need a reason</div>
+        <div class="pcard-cta">Order this <span>→</span></div>
+      </div>
+    </a>
+    <!-- I Miss You -->
+    <a class="pcard" href="https://cbl.link/Qdh3fD8">
+      <div class="pcard-img" style="background:#FFF0F8">
+        <svg viewBox="0 0 60 60" fill="none"><rect width="60" height="60" rx="16" fill="#FFE3E9"/>
+        <rect x="12" y="16" width="36" height="28" rx="6" fill="#E890A8"/>
+        <path d="M12 22l18 12 18-12" stroke="#C85A7A" stroke-width="2"/>
+        <path d="M30 12l4 6H26z" fill="#C85A7A"/></svg>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-name">I Miss You</div>
+        <div class="pcard-price">₦8,000 / ₦10,000</div>
+        <div class="pcard-em">Say it without overthinking</div>
+        <div class="pcard-cta">Order this <span>→</span></div>
+      </div>
+    </a>
+    <!-- Thank You -->
+    <a class="pcard" href="https://cbl.link/Qdh3fD8">
+      <div class="pcard-img" style="background:#FFFBF0">
+        <svg viewBox="0 0 60 60" fill="none"><rect width="60" height="60" rx="16" fill="#FFF5E0"/>
+        <circle cx="30" cy="30" r="16" fill="#F0C040" opacity=".3"/>
+        <path d="M22 30l6 6 12-12" stroke="#C89000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <circle cx="30" cy="30" r="14" stroke="#C89000" stroke-width="2" fill="none"/></svg>
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-name">Thank You</div>
+        <div class="pcard-price">₦8,000 / ₦10,000</div>
+        <div class="pcard-em">Appreciation made easy</div>
+        <div class="pcard-cta">Order this <span>→</span></div>
+      </div>
+    </a>
+    <!-- No Wahala - wide -->
+    <a class="pcard pcard-wide" href="https://cbl.link/Qdh3fD8">
+      <div class="pcard-img" style="background:#F0FFF5;width:110px;height:90px;flex-shrink:0">
+        <svg viewBox="0 0 60 60" fill="none"><rect width="60" height="60" rx="16" fill="#E0F5E8"/>
+        <circle cx="30" cy="30" r="16" fill="#50B870" opacity=".2"/>
+        <circle cx="24" cy="26" r="3" fill="#50B870"/>
+        <circle cx="36" cy="26" r="3" fill="#50B870"/>
+        <path d="M21 36c2 4 16 4 18 0" stroke="#50B870" stroke-width="2.5" stroke-linecap="round" fill="none"/></svg>
+      </div>
+      <div class="pcard-body" style="flex:1">
+        <div class="pcard-name">No Wahala</div>
+        <div class="pcard-price">₦8,000 / ₦10,000</div>
+        <div class="pcard-em">Just small enjoyment</div>
+        <div class="pcard-cta">Order this <span>→</span></div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- EXPRESS BENTO -->
+<div class="pg" id="bento">
+  <div class="slabel">Express Order</div>
+  <h2 class="stitle">Express Bento</h2>
+  <p class="ssub">Small. Fast. Thoughtful.</p>
+  <div class="spills">
+    <div class="spill on" onclick="pickSize(this,'8,000')">
+      <span class="spill-name">4-inch</span>
+      <span class="spill-price">₦8,000</span>
+    </div>
+    <div class="spill" onclick="pickSize(this,'10,000')">
+      <span class="spill-name">6-inch</span>
+      <span class="spill-price">₦10,000</span>
+    </div>
+  </div>
+  <div class="blist" id="blist">
+    <!-- rows injected by JS -->
+  </div>
+  <div style="text-align:center"><a class="btn" href="https://cbl.link/Qdh3fD8">Order Bento →</a></div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SIGNATURE -->
+<div class="pg pg-alt" id="sig">
+  <div class="slabel">Premium</div>
+  <h2 class="stitle">Signature Cakes</h2>
+  <p class="ssub">Pick what fits your moment</p>
+  <div class="sgrid">
+    <a class="scard" href="https://cbl.link/Qdh3fD8">
+      <div class="scard-img" style="background:#FFF0F4">
+        <svg viewBox="0 0 64 64" fill="none"><rect x="8" y="38" width="48" height="18" rx="6" fill="#C85A7A"/>
+        <rect x="4" y="30" width="56" height="12" rx="6" fill="#D97090"/>
+        <rect x="12" y="20" width="40" height="14" rx="6" fill="#E890A8"/>
+        <path d="M24 20c0-4 4-8 8-8s8 4 8 8" stroke="#F0A8BC" stroke-width="2" fill="none"/>
+        <circle cx="32" cy="12" rx="4" fill="#C85A7A"/></svg>
+      </div>
+      <div class="scard-body">
+        <div class="scard-name">Sweet Surprise</div>
+        <div class="scard-msg">Just because ❤</div>
+        <div class="scard-price">₦22,000 / ₦28,000</div>
+        <div class="pcard-cta">Order this cake <span>→</span></div>
+      </div>
+    </a>
+    <a class="scard" href="https://cbl.link/Qdh3fD8">
+      <div class="scard-img" style="background:#FFF5F0">
+        <svg viewBox="0 0 64 64" fill="none"><rect x="8" y="38" width="48" height="18" rx="6" fill="#D97090"/>
+        <rect x="4" y="30" width="56" height="12" rx="6" fill="#E890A8"/>
+        <rect x="12" y="20" width="40" height="14" rx="6" fill="#F0A8BC"/>
+        <rect x="24" y="12" width="6" height="10" rx="3" fill="#C85A7A" opacity=".6"/>
+        <rect x="34" y="12" width="6" height="10" rx="3" fill="#C85A7A" opacity=".6"/>
+        <circle cx="27" cy="11" rx="3" fill="#C85A7A"/>
+        <circle cx="37" cy="11" rx="3" fill="#C85A7A"/></svg>
+      </div>
+      <div class="scard-body">
+        <div class="scard-name">Birthday Classic</div>
+        <div class="scard-msg">Happy Birthday</div>
+        <div class="scard-price">₦22,000 / ₦28,000</div>
+        <div class="pcard-cta">Order this cake <span>→</span></div>
+      </div>
+    </a>
+    <a class="scard" href="https://cbl.link/Qdh3fD8">
+      <div class="scard-img" style="background:#FFF0F8">
+        <svg viewBox="0 0 64 64" fill="none"><rect x="8" y="38" width="48" height="18" rx="6" fill="#C85A7A"/>
+        <rect x="4" y="30" width="56" height="12" rx="6" fill="#D97090"/>
+        <rect x="12" y="20" width="40" height="14" rx="6" fill="#E890A8"/>
+        <path d="M32 48C32 48 10 36 10 22a12 12 0 0122 8 12 12 0 0122-8c0 14-22 26-22 26z" fill="#F0A8BC" opacity=".5"/>
+        <path d="M32 42C32 42 16 34 16 24a8 8 0 0116 0 8 8 0 0116 0c0 10-16 18-16 18z" fill="white" opacity=".4"/></svg>
+      </div>
+      <div class="scard-body">
+        <div class="scard-name">Romantic Gesture</div>
+        <div class="scard-msg">For you ❤</div>
+        <div class="scard-price">₦22,000 / ₦28,000</div>
+        <div class="pcard-cta">Order this cake <span>→</span></div>
+      </div>
+    </a>
+    <a class="scard" href="https://cbl.link/Qdh3fD8">
+      <div class="scard-img" style="background:#FFFBF0">
+        <svg viewBox="0 0 64 64" fill="none"><rect x="8" y="38" width="48" height="18" rx="6" fill="#D4A040"/>
+        <rect x="4" y="30" width="56" height="12" rx="6" fill="#E8B850"/>
+        <rect x="12" y="20" width="40" height="14" rx="6" fill="#F0CC70"/>
+        <circle cx="32" cy="14" r="6" fill="#E8B850"/>
+        <path d="M29 14l2 3 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      </div>
+      <div class="scard-body">
+        <div class="scard-name">Thoughtful Gift</div>
+        <div class="scard-msg">Thinking of you</div>
+        <div class="scard-price">₦22,000 / ₦28,000</div>
+        <div class="pcard-cta">Order this cake <span>→</span></div>
+      </div>
+    </a>
+    <a class="scard" href="https://cbl.link/Qdh3fD8">
+      <div class="scard-img" style="background:#F0FFF5">
+        <svg viewBox="0 0 64 64" fill="none"><rect x="8" y="38" width="48" height="18" rx="6" fill="#50A870"/>
+        <rect x="4" y="30" width="56" height="12" rx="6" fill="#68C088"/>
+        <rect x="12" y="20" width="40" height="14" rx="6" fill="#88D0A0"/>
+        <path d="M24 14l4 8H20zm16 0l4 8H36z" fill="#50A870" opacity=".7"/>
+        <rect x="30" y="10" width="4" height="12" rx="2" fill="#50A870" opacity=".5"/></svg>
+      </div>
+      <div class="scard-body">
+        <div class="scard-name">Milestone Cake</div>
+        <div class="scard-msg">You did it!</div>
+        <div class="scard-price">₦22,000 / ₦28,000</div>
+        <div class="pcard-cta">Order this cake <span>→</span></div>
+      </div>
+    </a>
+    <a class="scard" href="https://cbl.link/Qdh3fD8">
+      <div class="scard-img" style="background:#F5F0FF">
+        <svg viewBox="0 0 64 64" fill="none"><rect x="14" y="34" width="36" height="18" rx="5" fill="#9060C8"/>
+        <rect x="10" y="26" width="44" height="12" rx="5" fill="#A878D8"/>
+        <rect x="18" y="18" width="28" height="12" rx="5" fill="#C0A0E8"/>
+        <rect x="30" y="10" width="4" height="10" rx="2" fill="#9060C8" opacity=".6"/>
+        <circle cx="32" cy="10" r="3" fill="#9060C8"/></svg>
+      </div>
+      <div class="scard-body">
+        <div class="scard-name">Mini Celebration</div>
+        <div class="scard-msg">Little win</div>
+        <div class="scard-price">₦20,000</div>
+        <div class="pcard-cta">Order this cake <span>→</span></div>
+      </div>
+    </a>
+  </div>
+  <p class="sfooter">Available in classic flavors</p>
+</div>
+
+<div class="divider"></div>
+
+<!-- GIFT SETS -->
+<div class="pg" id="gifts">
+  <div class="slabel">Complete Gestures</div>
+  <h2 class="stitle">Gift Sets</h2>
+  <p class="ssub">Everything you need in one box</p>
+  <div class="glist">
+    <a class="gcard" href="https://cbl.link/Qdh3fD8">
+      <div class="gcard-img" style="background:#FFF0F4">
+        <span class="glabel">Popular</span>
+        <svg viewBox="0 0 72 72" fill="none"><rect x="8" y="28" width="56" height="36" rx="8" fill="#C85A7A"/>
+        <rect x="14" y="18" width="44" height="14" rx="6" fill="#D97090"/>
+        <rect x="32" y="12" width="8" height="20" rx="4" fill="#E890A8"/>
+        <path d="M20 28h32" stroke="white" stroke-width="2" opacity=".4"/>
+        <rect x="18" y="36" width="36" height="4" rx="2" fill="white" opacity=".3"/>
+        <rect x="18" y="44" width="28" height="4" rx="2" fill="white" opacity=".2"/></svg>
+      </div>
+      <div class="gcard-body">
+        <div class="gcard-info">
+          <div class="gcard-name">Birthday Ready</div>
+          <div class="gcard-em">Everything sorted. Just send it</div>
+        </div>
+        <div class="gcard-right">
+          <div class="gcard-price">₦30,000</div>
+          <span class="btn-sm">Send this →</span>
+        </div>
+      </div>
+    </a>
+    <a class="gcard" href="https://cbl.link/Qdh3fD8">
+      <div class="gcard-img" style="background:#FFF5F8">
+        <svg viewBox="0 0 72 72" fill="none"><rect x="8" y="28" width="56" height="36" rx="8" fill="#D97090"/>
+        <rect x="14" y="18" width="44" height="14" rx="6" fill="#E890A8"/>
+        <rect x="32" y="12" width="8" height="20" rx="4" fill="#F0A8BC"/>
+        <path d="M36 52C36 52 18 44 18 36a9 9 0 0118 0 9 9 0 0118 0c0 8-18 16-18 16z" fill="white" opacity=".3"/></svg>
+      </div>
+      <div class="gcard-body">
+        <div class="gcard-info">
+          <div class="gcard-name">Send Love</div>
+          <div class="gcard-em">Send love in a box</div>
+        </div>
+        <div class="gcard-right">
+          <div class="gcard-price">₦18,000</div>
+          <span class="btn-sm">Send this →</span>
+        </div>
+      </div>
+    </a>
+    <a class="gcard" href="https://cbl.link/Qdh3fD8">
+      <div class="gcard-img" style="background:#FFF0F8">
+        <svg viewBox="0 0 72 72" fill="none"><rect x="8" y="28" width="56" height="36" rx="8" fill="#B860A0"/>
+        <rect x="12" y="18" width="48" height="12" rx="5" fill="#C878B0"/>
+        <path d="M12 24l24 14 24-14" stroke="#A04888" stroke-width="1.5"/>
+        <path d="M36 18l5 7H31z" fill="#A04888"/></svg>
+      </div>
+      <div class="gcard-body">
+        <div class="gcard-info">
+          <div class="gcard-name">I Miss You</div>
+          <div class="gcard-em">Say it without overthinking</div>
+        </div>
+        <div class="gcard-right">
+          <div class="gcard-price">₦13,000</div>
+          <span class="btn-sm">Send this →</span>
+        </div>
+      </div>
+    </a>
+    <a class="gcard" href="https://cbl.link/Qdh3fD8">
+      <div class="gcard-img" style="background:#FFFBF0">
+        <svg viewBox="0 0 72 72" fill="none"><rect x="8" y="28" width="56" height="36" rx="8" fill="#D4A040"/>
+        <rect x="14" y="18" width="44" height="14" rx="6" fill="#E8B850"/>
+        <rect x="32" y="10" width="8" height="22" rx="4" fill="#F0CC70"/>
+        <path d="M20 28h32" stroke="white" stroke-width="2" opacity=".4"/></svg>
+      </div>
+      <div class="gcard-body">
+        <div class="gcard-info">
+          <div class="gcard-name">Simple Surprise</div>
+          <div class="gcard-em">Simple. Still special.</div>
+        </div>
+        <div class="gcard-right">
+          <div class="gcard-price">₦12,000</div>
+          <span class="btn-sm">Send this →</span>
+        </div>
+      </div>
+    </a>
+    <a class="gcard" href="https://cbl.link/Qdh3fD8">
+      <div class="gcard-img" style="background:#F0FFF5">
+        <svg viewBox="0 0 72 72" fill="none"><rect x="8" y="28" width="56" height="36" rx="8" fill="#50A870"/>
+        <rect x="14" y="18" width="44" height="14" rx="6" fill="#68C088"/>
+        <rect x="32" y="10" width="8" height="22" rx="4" fill="#88D0A0"/>
+        <path d="M36 56C36 56 20 48 20 40a8 8 0 0116 0 8 8 0 0116 0c0 8-16 16-16 16z" fill="white" opacity=".2"/></svg>
+      </div>
+      <div class="gcard-body">
+        <div class="gcard-info">
+          <div class="gcard-name">Just Because</div>
+          <div class="gcard-em">You don't need a reason</div>
+        </div>
+        <div class="gcard-right">
+          <div class="gcard-price">₦10,500</div>
+          <span class="btn-sm">Send this →</span>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ADD-ONS -->
+<div class="pg pg-alt" id="addons">
+  <div class="slabel">Optional extras</div>
+  <h2 class="stitle">Add something extra</h2>
+  <p class="ssub">Small touches. Big difference.</p>
+  <div class="alist">
+    <div class="arow">
+      <div class="arow-icon">
+        <svg viewBox="0 0 22 22" fill="none"><rect x="9" y="2" width="4" height="10" rx="2" fill="#C85A7A" opacity=".5"/>
+        <ellipse cx="11" cy="12" rx="2.5" ry="4" fill="#F0C040"/>
+        <ellipse cx="11" cy="10" rx="1.5" ry="2" fill="#F8E080"/>
+        <rect x="9" y="14" width="4" height="8" rx="2" fill="#C85A7A"/></svg>
+      </div>
+      <div class="arow-name">Candle</div>
+      <div class="arow-price">₦2,500</div>
+    </div>
+    <div class="arow">
+      <div class="arow-icon">
+        <svg viewBox="0 0 22 22" fill="none"><path d="M4 6a2 2 0 012-2h10a2 2 0 012 2v12l-7-3-7 3z" fill="#C85A7A" opacity=".7"/>
+        <path d="M7 9h8M7 12h5" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="arow-name">Ribbon upgrade</div>
+      <div class="arow-price">₦1,500</div>
+    </div>
+    <div class="arow">
+      <div class="arow-icon">
+        <svg viewBox="0 0 22 22" fill="none"><rect x="3" y="5" width="16" height="12" rx="3" fill="#E890A8"/>
+        <path d="M3 8l8 6 8-6" stroke="#C85A7A" stroke-width="1.5"/>
+        <path d="M11 5l3 4H8z" fill="#C85A7A"/></svg>
+      </div>
+      <div class="arow-name">Extra note</div>
+      <div class="arow-price">₦1,000</div>
+    </div>
+    <div class="arow">
+      <div class="arow-icon">
+        <svg viewBox="0 0 22 22" fill="none"><rect x="3" y="4" width="14" height="16" rx="3" fill="#E890A8"/>
+        <path d="M6 9l3 3 6-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <line x1="6" y1="14" x2="13" y2="14" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="arow-name">Name writing</div>
+      <div class="arow-incl">Included</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ORDER -->
+<div class="pg order-pg" id="order">
+  <div class="slabel">Ready to send?</div>
+  <h2 class="stitle" style="margin-bottom:4px">Order now</h2>
+  <p class="ssub">Takes less than 5 minutes.</p>
+  <div class="osteps">
+    <div class="ostep"><div class="ostep-n">1</div><div><div class="ostep-t">Click WhatsApp</div><div class="ostep-s">We're ready and waiting</div></div></div>
+    <div class="ostep"><div class="ostep-n">2</div><div><div class="ostep-t">Pick your option</div><div class="ostep-s">Bento, Signature, or Gift Set</div></div></div>
+    <div class="ostep"><div class="ostep-n">3</div><div><div class="ostep-t">Pay & confirm</div><div class="ostep-s">We handle the rest</div></div></div>
+  </div>
+  <p class="oreassure">No stress. Just send.<br>Pick. Pay. Done.</p>
+  <a class="btn-big" href="https://cbl.link/Qdh3fD8">Order now on WhatsApp →</a>
+  <div class="ofooter">
+    <div class="of-brand">BeqaBakes</div>
+    <div class="of-tag">Because Beqa dey Bake.</div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const WA='https://cbl.link/Qdh3fD8';
+const bentos=[
+  {n:'Happy Birthday',d:'Clean, simple, and celebratory',bg:'#FFF0F4',icon:'<path d="M10 26h32l-3 16H13z" fill="#C85A7A"/><rect x="8" y="20" width="36" height="8" rx="4" fill="#D97090"/><rect x="14" y="12" width="24" height="10" rx="5" fill="#E890A8"/><rect x="23" y="6" width="4" height="8" rx="2" fill="#F0A8BC"/><circle cx="25" cy="6" r="2.5" fill="#C85A7A"/>'},
+  {n:'Soft Birthday',d:'Warm, soft, and sweet',bg:'#FFF5F8',icon:'<rect x="8" y="26" width="36" height="16" rx="5" fill="#E890A8"/><rect x="6" y="20" width="40" height="9" rx="5" fill="#F0A8BC"/><rect x="14" y="12" width="24" height="10" rx="5" fill="#F8C8D8"/><circle cx="20" cy="12" r="3" fill="#E890A8"/><circle cx="32" cy="12" r="3" fill="#E890A8"/>'},
+  {n:'Chocolate Birthday',d:'Rich and bold feel',bg:'#FFF5F0',icon:'<rect x="8" y="26" width="36" height="16" rx="5" fill="#7B4F2E"/><rect x="6" y="20" width="40" height="9" rx="5" fill="#9B6F4E"/><rect x="14" y="12" width="24" height="10" rx="5" fill="#BF956E"/><rect x="23" y="6" width="4" height="8" rx="2" fill="#C85A7A" opacity=".7"/>'},
+  {n:'Just Because',d:'A simple, thoughtful surprise',bg:'#FFF5F8',icon:'<path d="M26 38C26 38 10 30 10 20a8 8 0 0116 0 8 8 0 0116 0c0 10-16 18-16 18z" fill="#C85A7A"/>'},
+  {n:'I Miss You',d:'Say what words cannot',bg:'#FFF0F8',icon:'<rect x="8" y="14" width="36" height="24" rx="5" fill="#D97090"/><path d="M8 20l18 10 18-10" stroke="#C85A7A" stroke-width="1.5"/><path d="M26 8l4 7H22z" fill="#C85A7A"/>'},
+  {n:'No Wahala',d:'Light, fun, and easy',bg:'#F0FFF5',icon:'<circle cx="26" cy="24" r="14" fill="#68C088" opacity=".2"/><circle cx="20" cy="22" r="3" fill="#50A870"/><circle cx="32" cy="22" r="3" fill="#50A870"/><path d="M18 30c2 4 16 4 16 0" stroke="#50A870" stroke-width="2.5" stroke-linecap="round" fill="none"/>'},
+  {n:'Thank You',d:'Appreciation in a box',bg:'#FFFBF0',icon:'<circle cx="26" cy="24" r="14" fill="#F0C040" opacity=".2"/><path d="M18 24l6 6 12-12" stroke="#C89000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="26" cy="24" r="12" stroke="#C89000" stroke-width="1.5" fill="none"/>'},
+  {n:"I'm Sorry",d:'Soft, honest, and sincere',bg:'#FFF5F8',icon:'<path d="M26 38C26 38 10 30 10 20a8 8 0 0116 0 8 8 0 0116 0c0 10-16 18-16 18z" fill="#E890A8"/><path d="M26 34C26 34 14 28 14 22a6 6 0 0112 0 6 6 0 0112 0c0 6-12 12-12 12z" fill="white" opacity=".4"/>'}
+];
+
+let curPrice='8,000';
+
+function buildBentos(){
+  const el=document.getElementById('blist');
+  el.innerHTML=bentos.map(b=>`
+    <a class="bcard" href="${WA}">
+      <div class="bcard-icon" style="background:${b.bg}">
+        <svg viewBox="0 0 52 52" fill="none">${b.icon}</svg>
+      </div>
+      <div class="bcard-info">
+        <div class="bcard-name">${b.n}</div>
+        <div class="bcard-desc">${b.d}</div>
+        <div class="bcard-price bprice">₦${curPrice}</div>
+      </div>
+      <div class="bcard-arr">→</div>
+    </a>`).join('');
+}
+
+function pickSize(el,price){
+  curPrice=price;
+  document.querySelectorAll('.spill').forEach(p=>p.classList.remove('on'));
+  el.classList.add('on');
+  buildBentos();
+}
+
+function goTo(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
+
+buildBentos();
+</script>
