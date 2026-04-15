@@ -1,0 +1,1479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BeqaBakes — Send a cake in minutes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ════════════════════════════════════════
+   TOKENS
+════════════════════════════════════════ */
+:root {
+  --rose:       #C85A7A;
+  --rose-d:     #A8435F;
+  --rose-l:     #E890A8;
+  --blush:      #FFE3E9;
+  --petal:      #FFF0F4;
+  --cream:      #FFF8F5;
+  --surface:    #FFFFFF;
+  --text:       #1E1212;
+  --mid:        #6B4A52;
+  --muted:      #A88090;
+  --border:     rgba(200,90,122,.12);
+  --shadow:     0 4px 24px rgba(200,90,122,.10);
+  --shadow-lg:  0 12px 48px rgba(200,90,122,.16);
+  --r-sm:  12px;
+  --r-md:  18px;
+  --r-lg:  24px;
+  --r-xl:  32px;
+  --r-pill: 999px;
+}
+
+/* ════════════════════════════════════════
+   RESET + BASE
+════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { display: block; max-width: 100%; }
+a { text-decoration: none; color: inherit; }
+
+/* ════════════════════════════════════════
+   NAV
+════════════════════════════════════════ */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  background: rgba(255,248,245,.95);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; font-weight: 700;
+  color: var(--rose);
+  letter-spacing: -.3px;
+}
+.nav-links {
+  display: flex; gap: 6px; align-items: center;
+}
+.nav-link {
+  font-size: 13px; font-weight: 500; color: var(--mid);
+  padding: 7px 14px; border-radius: var(--r-pill);
+  transition: all .2s;
+  white-space: nowrap;
+}
+.nav-link:hover { background: var(--blush); color: var(--rose); }
+.nav-cta {
+  background: var(--rose); color: white !important;
+  padding: 9px 20px;
+  border-radius: var(--r-pill);
+  font-weight: 600; font-size: 13px;
+  transition: background .2s, transform .15s;
+}
+.nav-cta:hover { background: var(--rose-d); transform: translateY(-1px); }
+.nav-menu { display: none; }
+
+/* ════════════════════════════════════════
+   SECTIONS
+════════════════════════════════════════ */
+section { padding: 96px 24px; max-width: 1100px; margin: 0 auto; }
+.full-bleed { max-width: none; padding: 0; }
+
+.s-label {
+  display: inline-block;
+  font-size: 11px; font-weight: 600; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--rose);
+  background: rgba(200,90,122,.08);
+  padding: 5px 14px; border-radius: var(--r-pill);
+  margin-bottom: 14px;
+}
+.s-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 700; line-height: 1.15;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+.s-sub {
+  font-size: 17px; color: var(--mid);
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  margin-bottom: 48px;
+  max-width: 560px;
+}
+
+/* ════════════════════════════════════════
+   BUTTONS
+════════════════════════════════════════ */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600; font-size: 15px;
+  padding: 16px 28px; border-radius: var(--r-pill);
+  border: none; cursor: pointer;
+  transition: all .2s; text-decoration: none;
+  white-space: nowrap;
+}
+.btn-pay {
+  background: var(--rose); color: white;
+}
+.btn-pay:hover { background: var(--rose-d); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.btn-chat {
+  background: white; color: var(--rose);
+  border: 1.5px solid var(--rose);
+}
+.btn-chat:hover { background: var(--petal); }
+.btn-sm { font-size: 13px; padding: 11px 20px; }
+.btn-xs { font-size: 12px; padding: 9px 16px; }
+.btn-block { width: 100%; justify-content: center; }
+
+/* ════════════════════════════════════════
+   HERO
+════════════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  background: linear-gradient(145deg, #fff8f5 0%, #ffe8ef 50%, #ffd4e0 100%);
+  padding: 80px 24px 0;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 70% 40%, rgba(248,180,200,.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-inner {
+  max-width: 1100px; margin: 0 auto; width: 100%;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+  align-items: center; padding-top: 40px;
+}
+.hero-content { position: relative; z-index: 2; }
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 600; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--rose);
+  background: white; padding: 7px 16px; border-radius: var(--r-pill);
+  border: 1px solid var(--border); margin-bottom: 28px;
+  box-shadow: 0 2px 12px rgba(200,90,122,.08);
+}
+.hero-eyebrow-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--rose);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
+.hero-h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(44px, 6vw, 72px);
+  font-weight: 700; line-height: 1.1;
+  color: var(--text); margin-bottom: 20px;
+}
+.hero-h1 em { font-style: italic; color: var(--rose); }
+.hero-sub {
+  font-size: 18px; color: var(--mid); line-height: 1.7;
+  margin-bottom: 10px;
+}
+.hero-support {
+  font-size: 14px; color: var(--muted); margin-bottom: 36px;
+}
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 48px; }
+.hero-trust {
+  display: flex; gap: 24px; align-items: center; flex-wrap: wrap;
+}
+.trust-item {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--mid); font-weight: 500;
+}
+.trust-icon { font-size: 16px; }
+
+/* Hero Visual */
+.hero-visual {
+  position: relative; z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+}
+.hero-cake-wrap {
+  position: relative;
+  animation: float 4s ease-in-out infinite;
+}
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+.hero-cake-wrap svg { width: 100%; max-width: 460px; height: auto; }
+.hero-badge {
+  position: absolute;
+  background: white; border-radius: var(--r-md);
+  box-shadow: var(--shadow-lg);
+  padding: 12px 18px; display: flex; align-items: center; gap: 10px;
+}
+.hero-badge-1 { top: 5%; right: -5%; }
+.hero-badge-2 { bottom: 15%; left: -10%; }
+.badge-icon { font-size: 22px; }
+.badge-text { font-size: 12px; font-weight: 600; color: var(--text); line-height: 1.3; }
+.badge-text span { display: block; font-size: 10px; font-weight: 400; color: var(--muted); }
+
+/* ════════════════════════════════════════
+   HOW IT WORKS
+════════════════════════════════════════ */
+.how-section { background: white; padding: 80px 24px; }
+.how-inner { max-width: 1100px; margin: 0 auto; }
+.how-steps {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px;
+  background: var(--border); border-radius: var(--r-lg); overflow: hidden;
+  margin-bottom: 48px;
+}
+.how-step {
+  background: white; padding: 40px 28px;
+  position: relative;
+}
+.how-step:not(:last-child)::after {
+  content: '→';
+  position: absolute; right: -14px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px; color: var(--rose-l); z-index: 1;
+}
+.how-num {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: var(--rose); color: white;
+  font-size: 18px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 18px;
+}
+.how-icon-wrap { font-size: 32px; margin-bottom: 14px; }
+.how-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.how-desc { font-size: 13px; color: var(--mid); line-height: 1.6; }
+.how-cta { text-align: center; }
+
+/* ════════════════════════════════════════
+   QUICK PICKS
+════════════════════════════════════════ */
+.picks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+.pick-card {
+  background: white; border-radius: var(--r-lg);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  transition: transform .25s, box-shadow .25s;
+  display: flex; flex-direction: column;
+}
+.pick-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+.pick-visual {
+  height: 220px; display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.pick-visual svg { width: 160px; height: 160px; }
+.pick-tag {
+  position: absolute; top: 14px; left: 14px;
+  background: white; border-radius: var(--r-pill);
+  font-size: 11px; font-weight: 700; color: var(--rose);
+  padding: 4px 12px; box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+.pick-body { padding: 22px; flex: 1; display: flex; flex-direction: column; }
+.pick-name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.pick-msg { font-size: 13px; color: var(--muted); font-style: italic; margin-bottom: 6px; }
+.pick-use { font-size: 12px; color: var(--mid); margin-bottom: 14px; }
+.pick-price { font-size: 22px; font-weight: 700; color: var(--rose); margin-bottom: 16px; }
+.pick-actions { display: flex; gap: 8px; margin-top: auto; }
+.pick-actions .btn { flex: 1; }
+
+/* ════════════════════════════════════════
+   BENTO
+════════════════════════════════════════ */
+.bento-section { background: var(--petal); padding: 96px 24px; }
+.bento-inner { max-width: 1100px; margin: 0 auto; }
+
+.bento-pricing {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+  margin-bottom: 48px;
+  background: white; border-radius: var(--r-lg); padding: 28px;
+  border: 1px solid var(--border);
+}
+.price-tier { padding: 16px; border-radius: var(--r-md); background: var(--petal); }
+.price-tier-name { font-size: 13px; font-weight: 600; color: var(--mid); margin-bottom: 8px; }
+.price-tier-list { list-style: none; }
+.price-tier-list li { font-size: 14px; color: var(--text); padding: 4px 0; display: flex; justify-content: space-between; }
+.price-tier-list li span { font-weight: 700; color: var(--rose); }
+
+.bento-cats { display: flex; flex-direction: column; gap: 40px; }
+.bento-cat-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; font-weight: 700; color: var(--text);
+  margin-bottom: 16px; padding-bottom: 10px;
+  border-bottom: 2px solid var(--blush);
+}
+.bento-items { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.bento-item {
+  background: white; border-radius: var(--r-md); padding: 20px;
+  border: 1px solid var(--border);
+  transition: transform .2s, box-shadow .2s;
+}
+.bento-item:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+.bento-item-name { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+.bento-btns { display: flex; flex-direction: column; gap: 8px; }
+.bento-btn {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--petal); border-radius: var(--r-sm);
+  padding: 10px 14px; border: none; cursor: pointer;
+  transition: background .15s, transform .1s;
+  text-decoration: none; color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+}
+.bento-btn:hover { background: var(--blush); transform: translateX(3px); }
+.bento-btn-label { font-size: 13px; font-weight: 500; }
+.bento-btn-price { font-size: 13px; font-weight: 700; color: var(--rose); }
+.bento-addons {
+  background: white; border-radius: var(--r-lg); padding: 28px;
+  border: 1px solid var(--border); margin-top: 40px;
+}
+.bento-addons-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 16px; }
+.addons-row { display: flex; gap: 12px; flex-wrap: wrap; }
+.addon-chip {
+  background: var(--petal); border: 1px solid var(--border);
+  border-radius: var(--r-pill); padding: 8px 16px;
+  font-size: 13px; color: var(--mid); font-weight: 500;
+}
+.addon-chip strong { color: var(--rose); }
+
+/* ════════════════════════════════════════
+   SIGNATURE CAKES
+════════════════════════════════════════ */
+.sig-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 28px;
+}
+.sig-card {
+  background: white; border-radius: var(--r-lg);
+  border: 1px solid var(--border); overflow: hidden;
+  transition: transform .25s, box-shadow .25s;
+}
+.sig-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+.sig-visual {
+  height: 240px; display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.sig-visual svg { width: 180px; height: 180px; }
+.sig-body { padding: 24px; }
+.sig-name { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.sig-msg { font-family: 'Playfair Display', serif; font-size: 14px; font-style: italic; color: var(--muted); margin-bottom: 6px; }
+.sig-use { font-size: 12px; color: var(--mid); margin-bottom: 20px; display: flex; align-items: center; gap: 6px; }
+.sig-sizes {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  margin-bottom: 14px;
+}
+.sig-size-btn {
+  display: flex; flex-direction: column; align-items: center;
+  background: var(--petal); border-radius: var(--r-md);
+  padding: 14px; border: 1.5px solid transparent;
+  cursor: pointer; transition: all .2s; text-decoration: none;
+}
+.sig-size-btn:hover { border-color: var(--rose); background: var(--blush); }
+.sig-size-label { font-size: 12px; font-weight: 600; color: var(--mid); margin-bottom: 4px; }
+.sig-size-price { font-size: 18px; font-weight: 700; color: var(--rose); margin-bottom: 8px; }
+.sig-size-cta { font-size: 12px; font-weight: 600; color: var(--rose); }
+.sig-custom { font-size: 12px; color: var(--muted); text-align: center; }
+.sig-custom a { color: var(--rose); font-weight: 500; }
+
+/* ════════════════════════════════════════
+   GIFT SETS
+════════════════════════════════════════ */
+.gifts-section { background: var(--petal); padding: 96px 24px; }
+.gifts-inner { max-width: 1100px; margin: 0 auto; }
+.gifts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 24px;
+}
+.gift-card {
+  background: white; border-radius: var(--r-lg);
+  border: 1px solid var(--border); overflow: hidden;
+  transition: transform .25s, box-shadow .25s;
+}
+.gift-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.gift-visual {
+  height: 200px; display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.gift-popular {
+  position: absolute; top: 14px; right: 14px;
+  background: var(--rose); color: white;
+  font-size: 10px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; padding: 5px 12px;
+  border-radius: var(--r-pill);
+}
+.gift-body { padding: 22px; }
+.gift-name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.gift-em { font-size: 13px; font-style: italic; color: var(--muted); margin-bottom: 14px; font-family: 'Playfair Display', serif; }
+.gift-contents { margin-bottom: 18px; }
+.gift-contents-label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.gift-contents-list { display: flex; gap: 6px; flex-wrap: wrap; }
+.gift-content-tag { font-size: 11px; color: var(--mid); background: var(--petal); padding: 4px 10px; border-radius: var(--r-pill); border: 1px solid var(--border); }
+.gift-footer { display: flex; align-items: center; justify-content: space-between; }
+.gift-price { font-size: 24px; font-weight: 700; color: var(--rose); }
+
+/* ════════════════════════════════════════
+   CUSTOM
+════════════════════════════════════════ */
+.custom-section {
+  background: var(--rose);
+  padding: 96px 24px;
+  text-align: center;
+}
+.custom-inner { max-width: 680px; margin: 0 auto; }
+.custom-label { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,.7); margin-bottom: 16px; display: block; }
+.custom-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 52px); font-weight: 700; color: white; line-height: 1.2; margin-bottom: 16px; }
+.custom-sub { font-size: 18px; color: rgba(255,255,255,.8); margin-bottom: 40px; line-height: 1.6; }
+.custom-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: white; color: var(--rose);
+  font-weight: 700; font-size: 16px;
+  padding: 18px 36px; border-radius: var(--r-pill);
+  transition: all .2s; border: none; cursor: pointer;
+  text-decoration: none;
+}
+.custom-btn:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(0,0,0,.2); }
+
+/* ════════════════════════════════════════
+   FINAL CTA
+════════════════════════════════════════ */
+.final-section {
+  text-align: center; padding: 100px 24px;
+  background: white;
+}
+.final-inner { max-width: 700px; margin: 0 auto; }
+.final-title { font-family: 'Playfair Display', serif; font-size: clamp(36px, 5vw, 60px); font-weight: 700; color: var(--text); margin-bottom: 16px; line-height: 1.15; }
+.final-title em { font-style: italic; color: var(--rose); }
+.final-sub { font-size: 17px; color: var(--mid); margin-bottom: 48px; line-height: 1.7; }
+.final-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 48px; }
+.final-trust {
+  display: flex; gap: 32px; justify-content: center; flex-wrap: wrap;
+}
+.final-trust-item { font-size: 14px; color: var(--mid); font-weight: 500; display: flex; align-items: center; gap: 8px; }
+.check { display: inline-flex; width: 18px; height: 18px; border-radius: 50%; background: rgba(200,90,122,.1); color: var(--rose); align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+
+/* ════════════════════════════════════════
+   FOOTER
+════════════════════════════════════════ */
+footer {
+  background: var(--text);
+  padding: 48px 24px;
+  text-align: center;
+}
+.footer-logo { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: white; margin-bottom: 8px; }
+.footer-tag { font-size: 14px; color: rgba(255,255,255,.5); font-style: italic; font-family: 'Playfair Display', serif; margin-bottom: 24px; }
+.footer-links { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
+.footer-link { font-size: 13px; color: rgba(255,255,255,.5); transition: color .2s; }
+.footer-link:hover { color: var(--rose-l); }
+
+/* ════════════════════════════════════════
+   DIVIDER
+════════════════════════════════════════ */
+.section-divider {
+  height: 1px; background: var(--border);
+  max-width: 1100px; margin: 0 auto;
+}
+
+/* ════════════════════════════════════════
+   MOBILE
+════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .nav-links .nav-link:not(.nav-cta) { display: none; }
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; padding-top: 20px; }
+  .hero-visual { order: -1; }
+  .hero-badge-1, .hero-badge-2 { display: none; }
+  .how-steps { grid-template-columns: 1fr; }
+  .how-step::after { display: none !important; }
+  .bento-pricing { grid-template-columns: 1fr; }
+  .picks-grid { grid-template-columns: 1fr; }
+  .sig-grid { grid-template-columns: 1fr; }
+  .gifts-grid { grid-template-columns: 1fr; }
+  .final-trust { gap: 16px; flex-direction: column; align-items: center; }
+  section { padding: 64px 20px; }
+}
+
+/* ════════════════════════════════════════
+   ANIMATIONS
+════════════════════════════════════════ */
+.fade-up {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+/* staggered delays */
+.fade-up:nth-child(1) { transition-delay: 0s; }
+.fade-up:nth-child(2) { transition-delay: .08s; }
+.fade-up:nth-child(3) { transition-delay: .16s; }
+.fade-up:nth-child(4) { transition-delay: .24s; }
+.fade-up:nth-child(5) { transition-delay: .32s; }
+.fade-up:nth-child(6) { transition-delay: .40s; }
+
+/* ════════════════════════════════════════
+   SVG CAKE COMPONENTS (reusable patterns)
+════════════════════════════════════════ */
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav class="nav">
+  <div class="nav-logo">BeqaBakes</div>
+  <div class="nav-links">
+    <a href="#picks" class="nav-link">Quick Picks</a>
+    <a href="#bento" class="nav-link">Bentos</a>
+    <a href="#signature" class="nav-link">Signature</a>
+    <a href="#gifts" class="nav-link">Gift Sets</a>
+    <a href="https://cbl.link/Qdh3fD8" class="nav-link nav-cta">Order Now →</a>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<div class="hero full-bleed" id="hero">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-dot"></div>
+        Lagos · Abuja · Delivered Fresh
+      </div>
+      <h1 class="hero-h1">
+        Send a cake<br><em>in minutes.</em>
+      </h1>
+      <p class="hero-sub">Because Beqa dey Bake.<br>Every box feels like a celebration.</p>
+      <p class="hero-support">Pick → Pay → We handle the rest. Takes less than 2 minutes.</p>
+      <div class="hero-actions">
+        <a href="#picks" class="btn btn-pay">Pick → Pay → Done ✦</a>
+        <a href="https://cbl.link/zqhULGY" class="btn btn-chat">Custom Order →</a>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-item"><span class="trust-icon">⚡</span> Ready in 24hrs</div>
+        <div class="trust-item"><span class="trust-icon">📦</span> Beautiful packaging</div>
+        <div class="trust-item"><span class="trust-icon">💌</span> Note included free</div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-cake-wrap">
+        <!-- Hero cake SVG -->
+        <svg viewBox="0 0 460 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Box/packaging -->
+          <rect x="60" y="280" width="340" height="180" rx="16" fill="#F5E0E8"/>
+          <rect x="60" y="280" width="340" height="16" rx="8" fill="#E8C8D4"/>
+          <rect x="60" y="280" width="340" height="180" rx="16" stroke="#DDB8C8" stroke-width="1.5" fill="none"/>
+          <!-- Ribbon vertical -->
+          <rect x="215" y="280" width="30" height="180" fill="#C85A7A" opacity=".25"/>
+          <!-- Ribbon horizontal -->
+          <rect x="60" y="355" width="340" height="30" fill="#C85A7A" opacity=".25"/>
+          <!-- Ribbon bow -->
+          <path d="M230 340 C210 310 180 310 190 330 C200 350 230 340 230 340 C230 340 260 350 270 330 C280 310 250 310 230 340Z" fill="#C85A7A"/>
+          <circle cx="230" cy="340" r="10" fill="#A8435F"/>
+          <!-- Note card -->
+          <rect x="90" y="310" width="110" height="80" rx="8" fill="white" transform="rotate(-5 90 310)"/>
+          <line x1="102" y1="340" x2="180" y2="336" stroke="#E8C0CC" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="104" y1="352" x2="178" y2="348" stroke="#E8C0CC" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="106" y1="364" x2="160" y2="361" stroke="#E8C0CC" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- Cake on top -->
+          <!-- Bottom tier -->
+          <rect x="80" y="220" width="300" height="70" rx="12" fill="#C85A7A"/>
+          <rect x="80" y="220" width="300" height="20" rx="10" fill="#B04E6A"/>
+          <!-- frosting drip -->
+          <path d="M80 228 Q100 240 120 228 Q140 216 160 228 Q180 240 200 228 Q220 216 240 228 Q260 240 280 228 Q300 216 320 228 Q340 240 360 228 Q380 216 380 228" stroke="white" stroke-width="3" fill="none" opacity=".4"/>
+          <!-- Middle tier -->
+          <rect x="110" y="150" width="240" height="76" rx="10" fill="#D97090"/>
+          <rect x="110" y="150" width="240" height="18" rx="9" fill="#C86080"/>
+          <!-- Top tier -->
+          <rect x="145" y="94" width="170" height="62" rx="9" fill="#E890A8"/>
+          <rect x="145" y="94" width="170" height="16" rx="8" fill="#D870A0"/>
+          <!-- Decorations -->
+          <circle cx="165" cy="145" r="8" fill="white" opacity=".6"/>
+          <circle cx="200" cy="148" r="6" fill="#FFC0D0" opacity=".8"/>
+          <circle cx="295" cy="145" r="8" fill="white" opacity=".6"/>
+          <circle cx="260" cy="148" r="6" fill="#FFC0D0" opacity=".8"/>
+          <!-- Candles -->
+          <rect x="195" y="58" width="10" height="38" rx="4" fill="#F0C8D8"/>
+          <rect x="225" y="50" width="10" height="46" rx="4" fill="#D8A0C0"/>
+          <rect x="255" y="58" width="10" height="38" rx="4" fill="#F0C8D8"/>
+          <!-- Flames -->
+          <ellipse cx="200" cy="56" rx="5" ry="7" fill="#F8D040"/>
+          <ellipse cx="230" cy="47" rx="5" ry="7" fill="#F0B030"/>
+          <ellipse cx="260" cy="56" rx="5" ry="7" fill="#F8D040"/>
+          <!-- Sprinkles -->
+          <rect x="130" y="180" width="12" height="4" rx="2" fill="#FFB0C0" transform="rotate(30 130 180)"/>
+          <rect x="320" y="170" width="12" height="4" rx="2" fill="#B0D8FF" transform="rotate(-20 320 170)"/>
+          <rect x="160" y="175" width="8" height="3" rx="1.5" fill="#FFF0B0" transform="rotate(60 160 175)"/>
+          <rect x="290" y="182" width="8" height="3" rx="1.5" fill="#C0FFB0" transform="rotate(-40 290 182)"/>
+        </svg>
+        <!-- Floating badges -->
+        <div class="hero-badge hero-badge-1">
+          <div class="badge-icon">⚡</div>
+          <div class="badge-text">Ready in 24hrs<span>Order now, deliver tomorrow</span></div>
+        </div>
+        <div class="hero-badge hero-badge-2">
+          <div class="badge-icon">💌</div>
+          <div class="badge-text">Note included<span>We write it for you</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ HOW IT WORKS ══ -->
+<div class="how-section full-bleed" id="how">
+  <div class="how-inner">
+    <div class="s-label">Simple process</div>
+    <h2 class="s-title">How it works</h2>
+    <p class="s-sub">No chatting needed. Just order.</p>
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="how-num">1</div>
+        <div class="how-title">Choose your cake</div>
+        <div class="how-desc">Pick from Quick Picks, Bentos, Signature, or Gift Sets below.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-num">2</div>
+        <div class="how-title">Pay instantly</div>
+        <div class="how-desc">Secure Paystack checkout. Takes under 2 minutes.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-num">3</div>
+        <div class="how-title">Add note & delivery</div>
+        <div class="how-desc">Leave your message and delivery details at checkout.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-num">4</div>
+        <div class="how-title">We deliver</div>
+        <div class="how-desc">Your cake arrives beautifully packaged with your note inside.</div>
+      </div>
+    </div>
+    <div class="how-cta">
+      <a href="#picks" class="btn btn-pay">Start Order →</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══ QUICK PICKS ══ -->
+<section id="picks">
+  <div class="s-label">⚡ Ready in 24hrs</div>
+  <h2 class="s-title">Quick Picks</h2>
+  <p class="s-sub">80% of gifting moments, covered instantly. Pick → Pay → Done.</p>
+  <div class="picks-grid">
+
+    <!-- Happy Birthday -->
+    <div class="pick-card fade-up">
+      <div class="pick-visual" style="background:linear-gradient(135deg,#fff0f4,#ffe3e9);">
+        <div class="pick-tag">Most Popular</div>
+        <svg viewBox="0 0 160 160" fill="none">
+          <rect x="20" y="90" width="120" height="52" rx="10" fill="#C85A7A"/>
+          <rect x="20" y="90" width="120" height="16" rx="8" fill="#B04E6A"/>
+          <path d="M20 98 Q33 108 46 98 Q59 88 72 98 Q85 108 98 98 Q111 88 124 98 Q137 108 140 98" stroke="white" stroke-width="2" fill="none" opacity=".4"/>
+          <rect x="38" y="54" width="84" height="40" rx="8" fill="#D97090"/>
+          <rect x="58" y="26" width="44" height="30" rx="7" fill="#E890A8"/>
+          <rect x="76" y="10" width="8" height="18" rx="4" fill="#F0B8C8"/>
+          <ellipse cx="80" cy="9" rx="5" ry="7" fill="#F8D040"/>
+          <circle cx="44" cy="78" r="5" fill="white" opacity=".5"/>
+          <circle cx="116" cy="78" r="5" fill="white" opacity=".5"/>
+        </svg>
+      </div>
+      <div class="pick-body">
+        <div class="pick-name">Happy Birthday 🎂</div>
+        <div class="pick-msg">"Happy Birthday"</div>
+        <div class="pick-use">👉 Default birthdays — always right</div>
+        <div class="pick-price">from ₦8,000</div>
+        <div class="pick-actions">
+          <a href="https://cbl.link/Qdh3fD8" class="btn btn-pay btn-sm">Order this →</a>
+          <a href="https://cbl.link/zqhULGY" class="btn btn-chat btn-sm">Custom?</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Just Because -->
+    <div class="pick-card fade-up">
+      <div class="pick-visual" style="background:linear-gradient(135deg,#fff5f8,#ffe8ef);">
+        <svg viewBox="0 0 160 160" fill="none">
+          <path d="M80 130C80 130 20 98 20 62a32 32 0 0160 0 32 32 0 0160 0c0 36-60 68-60 68z" fill="#C85A7A"/>
+          <path d="M80 118C80 118 32 90 32 62a24 24 0 0148 0 24 24 0 0148 0c0 28-48 56-48 56z" fill="#D97090" opacity=".5"/>
+          <circle cx="80" cy="40" r="8" fill="white" opacity=".3"/>
+        </svg>
+      </div>
+      <div class="pick-body">
+        <div class="pick-name">Just Because ❤️</div>
+        <div class="pick-msg">"For you"</div>
+        <div class="pick-use">👉 Random gifting — no reason needed</div>
+        <div class="pick-price">from ₦8,000</div>
+        <div class="pick-actions">
+          <a href="https://cbl.link/Qdh3fD8" class="btn btn-pay btn-sm">Order this →</a>
+          <a href="https://cbl.link/zqhULGY" class="btn btn-chat btn-sm">Custom?</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- I Miss You -->
+    <div class="pick-card fade-up">
+      <div class="pick-visual" style="background:linear-gradient(135deg,#fff0f8,#fde0f0);">
+        <svg viewBox="0 0 160 160" fill="none">
+          <rect x="24" y="42" width="112" height="76" rx="12" fill="#D97090"/>
+          <rect x="24" y="42" width="112" height="22" rx="11" fill="#C86080"/>
+          <path d="M24 58 L80 90 L136 58" stroke="#A84060" stroke-width="2"/>
+          <path d="M68 30 L80 14 L92 30" fill="#C85A7A"/>
+          <rect x="74" y="12" width="12" height="20" rx="6" fill="#C85A7A"/>
+          <circle cx="80" cy="11" r="5" fill="#D97090"/>
+        </svg>
+      </div>
+      <div class="pick-body">
+        <div class="pick-name">I Miss You 💌</div>
+        <div class="pick-msg">"I miss you"</div>
+        <div class="pick-use">👉 Distance — say it without words</div>
+        <div class="pick-price">from ₦8,000</div>
+        <div class="pick-actions">
+          <a href="https://cbl.link/Qdh3fD8" class="btn btn-pay btn-sm">Order this →</a>
+          <a href="https://cbl.link/zqhULGY" class="btn btn-chat btn-sm">Custom?</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Thank You -->
+    <div class="pick-card fade-up">
+      <div class="pick-visual" style="background:linear-gradient(135deg,#fffbf0,#fff3d4);">
+        <svg viewBox="0 0 160 160" fill="none">
+          <circle cx="80" cy="80" r="52" fill="#F0C040" opacity=".15"/>
+          <circle cx="80" cy="80" r="42" stroke="#D4A020" stroke-width="2.5" fill="none"/>
+          <path d="M56 80 L72 96 L108 60" stroke="#C89000" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <circle cx="80" cy="80" r="52" stroke="#F0C040" stroke-width="1" fill="none"/>
+        </svg>
+      </div>
+      <div class="pick-body">
+        <div class="pick-name">Thank You 💛</div>
+        <div class="pick-msg">"Thank you"</div>
+        <div class="pick-use">👉 Appreciation — simple and real</div>
+        <div class="pick-price">from ₦8,000</div>
+        <div class="pick-actions">
+          <a href="https://cbl.link/Qdh3fD8" class="btn btn-pay btn-sm">Order this →</a>
+          <a href="https://cbl.link/zqhULGY" class="btn btn-chat btn-sm">Custom?</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- No Wahala -->
+    <div class="pick-card fade-up">
+      <div class="pick-visual" style="background:linear-gradient(135deg,#f0fff5,#d8f5e4);">
+        <svg viewBox="0 0 160 160" fill="none">
+          <circle cx="80" cy="80" r="52" fill="#50A870" opacity=".12"/>
+          <circle cx="62" cy="68" r="10" fill="#50A870"/>
+          <circle cx="98" cy="68" r="10" fill="#50A870"/>
+          <circle cx="62" cy="68" r="4" fill="white"/>
+          <circle cx="98" cy="68" r="4" fill="white"/>
+          <path d="M52 98 Q80 118 108 98" stroke="#50A870" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <circle cx="80" cy="80" r="52" stroke="#68C088" stroke-width="1.5" fill="none"/>
+        </svg>
+      </div>
+      <div class="pick-body">
+        <div class="pick-name">No Wahala 😄</div>
+        <div class="pick-msg">"No wahala"</div>
+        <div class="pick-use">👉 Fun & casual — just enjoyment</div>
+        <div class="pick-price">from ₦8,000</div>
+        <div class="pick-actions">
+          <a href="https://cbl.link/Qdh3fD8" class="btn btn-pay btn-sm">Order this →</a>
+          <a href="https://cbl.link/zqhULGY" class="btn btn-chat btn-sm">Custom?</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══ EXPRESS BENTO ══ -->
+<div class="bento-section full-bleed" id="bento">
+  <div class="bento-inner">
+    <div class="s-label">🎂 Express Order</div>
+    <h2 class="s-title">Express Bentos</h2>
+    <p class="s-sub">Fast, thoughtful, ready to send. Pick your moment → pick your size → pay.</p>
+
+    <!-- Pricing block -->
+    <div class="bento-pricing">
+      <div class="price-tier">
+        <div class="price-tier-name">Buttercream Finish</div>
+        <ul class="price-tier-list">
+          <li>4-inch <span>₦8,000</span></li>
+          <li>6-inch <span>₦10,000</span></li>
+        </ul>
+      </div>
+      <div class="price-tier">
+        <div class="price-tier-name">Whipped Cream Finish</div>
+        <ul class="price-tier-list">
+          <li>4-inch <span>₦10,000</span></li>
+          <li>6-inch <span>₦14,000</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="bento-cats">
+
+      <!-- Birthday -->
+      <div class="fade-up">
+        <div class="bento-cat-title">🎉 Birthday</div>
+        <div class="bento-items">
+          <div class="bento-item">
+            <div class="bento-item-name">Happy Birthday 🎂</div>
+            <div class="bento-btns">
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">4-inch Buttercream</span><span class="bento-btn-price">Pay ₦8,000 →</span></a>
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">6-inch Buttercream</span><span class="bento-btn-price">Pay ₦10,000 →</span></a>
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">4-inch Whipped</span><span class="bento-btn-price">Pay ₦10,000 →</span></a>
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">6-inch Whipped</span><span class="bento-btn-price">Pay ₦14,000 →</span></a>
+            </div>
+          </div>
+          <div class="bento-item">
+            <div class="bento-item-name">Soft Pink Birthday 🎀</div>
+            <div class="bento-btns">
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">4-inch Buttercream</span><span class="bento-btn-price">Pay ₦8,000 →</span></a>
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">6-inch Buttercream</span><span class="bento-btn-price">Pay ₦10,000 →</span></a>
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">4-inch Whipped</span><span class="bento-btn-price">Pay ₦10,000 →</span></a>
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">6-inch Whipped</span><span class="bento-btn-price">Pay ₦14,000 →</span></a>
+            </div>
+          </div>
+          <div class="bento-item">
+            <div class="bento-item-name">Chocolate Birthday 🍫</div>
+            <div class="bento-btns">
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">4-inch Buttercream</span><span class="bento-btn-price">Pay ₦8,000 →</span></a>
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">6-inch Buttercream</span><span class="bento-btn-price">Pay ₦10,000 →</span></a>
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">4-inch Whipped</span><span class="bento-btn-price">Pay ₦10,000 →</span></a>
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">6-inch Whipped</span><span class="bento-btn-price">Pay ₦14,000 →</span></a>
+            </div>
+          </div>
+          <div class="bento-item">
+            <div class="bento-item-name">Mini Party 🎉</div>
+            <div class="bento-btns">
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">4-inch Buttercream</span><span class="bento-btn-price">Pay ₦8,000 →</span></a>
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">6-inch Buttercream</span><span class="bento-btn-price">Pay ₦10,000 →</span></a>
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">4-inch Whipped</span><span class="bento-btn-price">Pay ₦10,000 →</span></a>
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">6-inch Whipped</span><span class="bento-btn-price">Pay ₦14,000 →</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Love / Romance -->
+      <div class="fade-up">
+        <div class="bento-cat-title">💌 Love & Romance</div>
+        <div class="bento-items">
+          <div class="bento-item">
+            <div class="bento-item-name">I Miss You 💌</div>
+            <div class="bento-btns">
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">4-inch Buttercream</span><span class="bento-btn-price">Pay ₦8,000 →</span></a>
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">6-inch Whipped</span><span class="bento-btn-price">Pay ₦14,000 →</span></a>
+            </div>
+          </div>
+          <div class="bento-item">
+            <div class="bento-item-name">Just Because ❤️</div>
+            <div class="bento-btns">
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">4-inch Buttercream</span><span class="bento-btn-price">Pay ₦8,000 →</span></a>
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">6-inch Whipped</span><span class="bento-btn-price">Pay ₦14,000 →</span></a>
+            </div>
+          </div>
+          <div class="bento-item">
+            <div class="bento-item-name">Love You Always 💘</div>
+            <div class="bento-btns">
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">4-inch Buttercream</span><span class="bento-btn-price">Pay ₦8,000 →</span></a>
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">6-inch Whipped</span><span class="bento-btn-price">Pay ₦14,000 →</span></a>
+            </div>
+          </div>
+          <div class="bento-item">
+            <div class="bento-item-name">For You ❤️</div>
+            <div class="bento-btns">
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">4-inch Buttercream</span><span class="bento-btn-price">Pay ₦8,000 →</span></a>
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">6-inch Whipped</span><span class="bento-btn-price">Pay ₦14,000 →</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fun / Playful -->
+      <div class="fade-up">
+        <div class="bento-cat-title">😄 Fun & Playful</div>
+        <div class="bento-items">
+          <div class="bento-item">
+            <div class="bento-item-name">No Wahala 😄</div>
+            <div class="bento-btns">
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">4-inch Buttercream</span><span class="bento-btn-price">Pay ₦8,000 →</span></a>
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">6-inch Whipped</span><span class="bento-btn-price">Pay ₦14,000 →</span></a>
+            </div>
+          </div>
+          <div class="bento-item">
+            <div class="bento-item-name">You Try 👏</div>
+            <div class="bento-btns">
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">4-inch Buttercream</span><span class="bento-btn-price">Pay ₦8,000 →</span></a>
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">6-inch Whipped</span><span class="bento-btn-price">Pay ₦14,000 →</span></a>
+            </div>
+          </div>
+          <div class="bento-item">
+            <div class="bento-item-name">Soft Life Only 😌</div>
+            <div class="bento-btns">
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">4-inch Buttercream</span><span class="bento-btn-price">Pay ₦8,000 →</span></a>
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">6-inch Whipped</span><span class="bento-btn-price">Pay ₦14,000 →</span></a>
+            </div>
+          </div>
+          <div class="bento-item">
+            <div class="bento-item-name">Chop Life 🎂</div>
+            <div class="bento-btns">
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">4-inch Buttercream</span><span class="bento-btn-price">Pay ₦8,000 →</span></a>
+              <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">6-inch Whipped</span><span class="bento-btn-price">Pay ₦14,000 →</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Appreciation + Apology row -->
+      <div class="fade-up">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;flex-wrap:wrap;">
+          <div>
+            <div class="bento-cat-title">💛 Appreciation</div>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <div class="bento-item">
+                <div class="bento-item-name">Thank You 💛</div>
+                <div class="bento-btns">
+                  <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">4-inch Buttercream</span><span class="bento-btn-price">Pay ₦8,000 →</span></a>
+                  <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">6-inch Whipped</span><span class="bento-btn-price">Pay ₦14,000 →</span></a>
+                </div>
+              </div>
+              <div class="bento-item">
+                <div class="bento-item-name">You Did Well 🎉</div>
+                <div class="bento-btns">
+                  <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">4-inch Buttercream</span><span class="bento-btn-price">Pay ₦8,000 →</span></a>
+                  <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">6-inch Whipped</span><span class="bento-btn-price">Pay ₦14,000 →</span></a>
+                </div>
+              </div>
+              <div class="bento-item">
+                <div class="bento-item-name">Proud of You 👏</div>
+                <div class="bento-btns">
+                  <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">4-inch Buttercream</span><span class="bento-btn-price">Pay ₦8,000 →</span></a>
+                  <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">6-inch Whipped</span><span class="bento-btn-price">Pay ₦14,000 →</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="bento-cat-title">🕊️ Apology</div>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <div class="bento-item">
+                <div class="bento-item-name">I'm Sorry ❤️</div>
+                <div class="bento-btns">
+                  <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">4-inch Buttercream</span><span class="bento-btn-price">Pay ₦8,000 →</span></a>
+                  <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">6-inch Whipped</span><span class="bento-btn-price">Pay ₦14,000 →</span></a>
+                </div>
+              </div>
+              <div class="bento-item">
+                <div class="bento-item-name">Please Forgive Me 🤍</div>
+                <div class="bento-btns">
+                  <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">4-inch Buttercream</span><span class="bento-btn-price">Pay ₦8,000 →</span></a>
+                  <a href="https://cbl.link/Qdh3fD8" class="bento-btn"><span class="bento-btn-label">6-inch Whipped</span><span class="bento-btn-price">Pay ₦14,000 →</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Add-ons -->
+    <div class="bento-addons" style="margin-top:48px;">
+      <div class="bento-addons-title">➕ Add to your order</div>
+      <div class="addons-row">
+        <div class="addon-chip">Note card — <strong>Free</strong></div>
+        <div class="addon-chip">Candle — <strong>+₦2,500</strong></div>
+        <div class="addon-chip">Ribbon — <strong>+₦500</strong></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ SIGNATURE CAKES ══ -->
+<section id="signature">
+  <div class="s-label">🎉 Premium</div>
+  <h2 class="s-title">Signature Cakes</h2>
+  <p class="s-sub">For every occasion. Pick → pay one of two sizes → we handle the rest.</p>
+  <div class="sig-grid">
+
+    <!-- Sweet Surprise -->
+    <div class="sig-card fade-up">
+      <div class="sig-visual" style="background:linear-gradient(135deg,#fff0f4,#ffd8e8);">
+        <svg viewBox="0 0 180 180" fill="none">
+          <rect x="20" y="100" width="140" height="62" rx="12" fill="#C85A7A"/>
+          <rect x="20" y="100" width="140" height="20" rx="10" fill="#B04E6A"/>
+          <path d="M20 108 Q38 120 56 108 Q74 96 92 108 Q110 120 128 108 Q146 96 160 108" stroke="white" stroke-width="2" fill="none" opacity=".35"/>
+          <rect x="42" y="56" width="96" height="50" rx="10" fill="#D97090"/>
+          <rect x="64" y="24" width="52" height="38" rx="9" fill="#E890A8"/>
+          <rect x="86" y="8" width="8" height="18" rx="4" fill="#F0B8C8"/>
+          <ellipse cx="90" cy="7" rx="5" ry="7" fill="#F8D040"/>
+          <path d="M68 140C68 140 46 130 46 118a16 16 0 0132 0 16 16 0 0132 0c0 12-22 22-22 22z" fill="white" opacity=".2"/>
+        </svg>
+      </div>
+      <div class="sig-body">
+        <div class="sig-name">Sweet Surprise ❤️</div>
+        <div class="sig-msg">"Just because"</div>
+        <div class="sig-use">👉 Random gifting — always a win</div>
+        <div class="sig-sizes">
+          <a href="https://cbl.link/Qdh3fD8" class="sig-size-btn">
+            <div class="sig-size-label">8-inch</div>
+            <div class="sig-size-price">₦22,000</div>
+            <div class="sig-size-cta">Pay & Order →</div>
+          </a>
+          <a href="https://cbl.link/Qdh3fD8" class="sig-size-btn">
+            <div class="sig-size-label">10-inch</div>
+            <div class="sig-size-price">₦28,000</div>
+            <div class="sig-size-cta">Pay & Order →</div>
+          </a>
+        </div>
+        <div class="sig-custom">Need custom writing? <a href="https://cbl.link/zqhULGY">Chat →</a></div>
+      </div>
+    </div>
+
+    <!-- Birthday Classic -->
+    <div class="sig-card fade-up">
+      <div class="sig-visual" style="background:linear-gradient(135deg,#fff5f0,#ffe8d8);">
+        <svg viewBox="0 0 180 180" fill="none">
+          <rect x="20" y="100" width="140" height="62" rx="12" fill="#D97090"/>
+          <rect x="20" y="100" width="140" height="20" rx="10" fill="#C06080"/>
+          <rect x="42" y="56" width="96" height="50" rx="10" fill="#E890A8"/>
+          <rect x="64" y="24" width="52" height="38" rx="9" fill="#F0A8BC"/>
+          <rect x="72" y="8" width="8" height="18" rx="4" fill="#D97090" opacity=".7"/>
+          <rect x="100" y="8" width="8" height="18" rx="4" fill="#D97090" opacity=".7"/>
+          <ellipse cx="76" cy="7" rx="5" ry="7" fill="#F8D040"/>
+          <ellipse cx="104" cy="7" rx="5" ry="7" fill="#F8E040"/>
+          <rect x="84" y="8" width="8" height="18" rx="4" fill="#E890A8" opacity=".6"/>
+          <ellipse cx="88" cy="6" rx="5" ry="7" fill="#F0B030"/>
+          <circle cx="52" cy="82" r="6" fill="white" opacity=".4"/>
+          <circle cx="128" cy="82" r="6" fill="white" opacity=".4"/>
+        </svg>
+      </div>
+      <div class="sig-body">
+        <div class="sig-name">Birthday Classic 🎂</div>
+        <div class="sig-msg">"Happy Birthday"</div>
+        <div class="sig-use">👉 Default birthday — never wrong</div>
+        <div class="sig-sizes">
+          <a href="https://cbl.link/Qdh3fD8" class="sig-size-btn">
+            <div class="sig-size-label">8-inch</div>
+            <div class="sig-size-price">₦22,000</div>
+            <div class="sig-size-cta">Pay & Order →</div>
+          </a>
+          <a href="https://cbl.link/Qdh3fD8" class="sig-size-btn">
+            <div class="sig-size-label">10-inch</div>
+            <div class="sig-size-price">₦28,000</div>
+            <div class="sig-size-cta">Pay & Order →</div>
+          </a>
+        </div>
+        <div class="sig-custom">Need custom writing? <a href="https://cbl.link/zqhULGY">Chat →</a></div>
+      </div>
+    </div>
+
+    <!-- Romantic Gesture -->
+    <div class="sig-card fade-up">
+      <div class="sig-visual" style="background:linear-gradient(135deg,#fff0f8,#fde0f0);">
+        <svg viewBox="0 0 180 180" fill="none">
+          <rect x="20" y="100" width="140" height="62" rx="12" fill="#B860A0"/>
+          <rect x="20" y="100" width="140" height="20" rx="10" fill="#A04888"/>
+          <rect x="42" y="56" width="96" height="50" rx="10" fill="#C878B0"/>
+          <rect x="64" y="24" width="52" height="38" rx="9" fill="#D890C0"/>
+          <path d="M90 150C90 150 48 132 48 110a24 24 0 0142 0 24 24 0 0142 0c0 22-42 40-42 40z" fill="white" opacity=".15"/>
+          <path d="M90 138C90 138 60 124 60 110a18 18 0 0130 0 18 18 0 0130 0c0 14-30 28-30 28z" fill="white" opacity=".12"/>
+        </svg>
+      </div>
+      <div class="sig-body">
+        <div class="sig-name">Romantic Gesture ❤️</div>
+        <div class="sig-msg">"For you"</div>
+        <div class="sig-use">👉 Couples & romantic gifting</div>
+        <div class="sig-sizes">
+          <a href="https://cbl.link/Qdh3fD8" class="sig-size-btn">
+            <div class="sig-size-label">8-inch</div>
+            <div class="sig-size-price">₦22,000</div>
+            <div class="sig-size-cta">Pay & Order →</div>
+          </a>
+          <a href="https://cbl.link/Qdh3fD8" class="sig-size-btn">
+            <div class="sig-size-label">10-inch</div>
+            <div class="sig-size-price">₦28,000</div>
+            <div class="sig-size-cta">Pay & Order →</div>
+          </a>
+        </div>
+        <div class="sig-custom">Need custom writing? <a href="https://cbl.link/zqhULGY">Chat →</a></div>
+      </div>
+    </div>
+
+    <!-- Thoughtful Gift -->
+    <div class="sig-card fade-up">
+      <div class="sig-visual" style="background:linear-gradient(135deg,#fffbf0,#fff3d0);">
+        <svg viewBox="0 0 180 180" fill="none">
+          <rect x="20" y="100" width="140" height="62" rx="12" fill="#D4A040"/>
+          <rect x="20" y="100" width="140" height="20" rx="10" fill="#B88820"/>
+          <rect x="42" y="56" width="96" height="50" rx="10" fill="#E8B850"/>
+          <rect x="64" y="24" width="52" height="38" rx="9" fill="#F0CC70"/>
+          <circle cx="90" cy="16" r="10" fill="#E8B850"/>
+          <path d="M84 16 L88 20 L96 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <circle cx="56" cy="84" r="5" fill="white" opacity=".4"/>
+          <circle cx="124" cy="84" r="5" fill="white" opacity=".4"/>
+        </svg>
+      </div>
+      <div class="sig-body">
+        <div class="sig-name">Thoughtful Gift 🌼</div>
+        <div class="sig-msg">"Thinking of you"</div>
+        <div class="sig-use">👉 Soft gifting — warm gestures</div>
+        <div class="sig-sizes">
+          <a href="https://cbl.link/Qdh3fD8" class="sig-size-btn">
+            <div class="sig-size-label">8-inch</div>
+            <div class="sig-size-price">₦22,000</div>
+            <div class="sig-size-cta">Pay & Order →</div>
+          </a>
+          <a href="https://cbl.link/Qdh3fD8" class="sig-size-btn">
+            <div class="sig-size-label">10-inch</div>
+            <div class="sig-size-price">₦28,000</div>
+            <div class="sig-size-cta">Pay & Order →</div>
+          </a>
+        </div>
+        <div class="sig-custom">Need custom writing? <a href="https://cbl.link/zqhULGY">Chat →</a></div>
+      </div>
+    </div>
+
+    <!-- Milestone Cake -->
+    <div class="sig-card fade-up">
+      <div class="sig-visual" style="background:linear-gradient(135deg,#f0fff5,#d8f5e4);">
+        <svg viewBox="0 0 180 180" fill="none">
+          <rect x="20" y="100" width="140" height="62" rx="12" fill="#50A870"/>
+          <rect x="20" y="100" width="140" height="20" rx="10" fill="#388858"/>
+          <rect x="42" y="56" width="96" height="50" rx="10" fill="#68C088"/>
+          <rect x="64" y="24" width="52" height="38" rx="9" fill="#88D0A0"/>
+          <path d="M68 20 L80 8 L92 20" fill="#50A870"/>
+          <rect x="76" y="6" width="8" height="28" rx="4" fill="#50A870" opacity=".7"/>
+          <path d="M56 42 L70 22" stroke="#50A870" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M124 42 L110 22" stroke="#50A870" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="sig-body">
+        <div class="sig-name">Milestone Cake 🎉</div>
+        <div class="sig-msg">"You did it!"</div>
+        <div class="sig-use">👉 Achievements & celebrations</div>
+        <div class="sig-sizes">
+          <a href="https://cbl.link/Qdh3fD8" class="sig-size-btn">
+            <div class="sig-size-label">8-inch</div>
+            <div class="sig-size-price">₦22,000</div>
+            <div class="sig-size-cta">Pay & Order →</div>
+          </a>
+          <a href="https://cbl.link/Qdh3fD8" class="sig-size-btn">
+            <div class="sig-size-label">10-inch</div>
+            <div class="sig-size-price">₦28,000</div>
+            <div class="sig-size-cta">Pay & Order →</div>
+          </a>
+        </div>
+        <div class="sig-custom">Need custom writing? <a href="https://cbl.link/zqhULGY">Chat →</a></div>
+      </div>
+    </div>
+
+    <!-- Mini Celebration -->
+    <div class="sig-card fade-up">
+      <div class="sig-visual" style="background:linear-gradient(135deg,#f5f0ff,#e8d8ff);">
+        <svg viewBox="0 0 180 180" fill="none">
+          <rect x="30" y="100" width="120" height="62" rx="12" fill="#9060C8"/>
+          <rect x="30" y="100" width="120" height="20" rx="10" fill="#7040A8"/>
+          <rect x="50" y="60" width="80" height="46" rx="10" fill="#A878D8"/>
+          <rect x="68" y="30" width="44" height="36" rx="9" fill="#C0A0E8"/>
+          <rect x="86" y="14" width="8" height="18" rx="4" fill="#9060C8" opacity=".7"/>
+          <circle cx="90" cy="13" r="5" fill="#C85A7A"/>
+          <circle cx="60" cy="84" r="5" fill="white" opacity=".3"/>
+          <circle cx="120" cy="84" r="5" fill="white" opacity=".3"/>
+        </svg>
+      </div>
+      <div class="sig-body">
+        <div class="sig-name">Mini Celebration 🎂</div>
+        <div class="sig-msg">"Little win"</div>
+        <div class="sig-use">👉 Small moments — still worth celebrating</div>
+        <div class="sig-sizes">
+          <a href="https://cbl.link/Qdh3fD8" class="sig-size-btn">
+            <div class="sig-size-label">8-inch</div>
+            <div class="sig-size-price">₦22,000</div>
+            <div class="sig-size-cta">Pay & Order →</div>
+          </a>
+          <a href="https://cbl.link/Qdh3fD8" class="sig-size-btn">
+            <div class="sig-size-label">10-inch</div>
+            <div class="sig-size-price">₦28,000</div>
+            <div class="sig-size-cta">Pay & Order →</div>
+          </a>
+        </div>
+        <div class="sig-custom">Need custom writing? <a href="https://cbl.link/zqhULGY">Chat →</a></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ GIFT SETS ══ -->
+<div class="gifts-section full-bleed" id="gifts">
+  <div class="gifts-inner">
+    <div class="s-label">🎁 Complete Gift Sets</div>
+    <h2 class="s-title">Just Pick & Send</h2>
+    <p class="s-sub">Everything in one box. One price. One click.</p>
+    <div class="gifts-grid">
+
+      <div class="gift-card fade-up">
+        <div class="gift-visual" style="background:linear-gradient(135deg,#fff0f4,#ffd8e8);">
+          <div class="gift-popular">Most Popular</div>
+          <svg viewBox="0 0 140 140" fill="none" width="140" height="140">
+            <rect x="10" y="50" width="120" height="78" rx="12" fill="#C85A7A"/>
+            <rect x="10" y="50" width="120" height="18" rx="9" fill="#B04E6A"/>
+            <rect x="60" y="30" width="20" height="32" rx="10" fill="#E890A8"/>
+            <path d="M40 50 H100" stroke="white" stroke-width="2" opacity=".3"/>
+            <rect x="28" y="68" width="84" height="10" rx="5" fill="white" opacity=".2"/>
+            <rect x="28" y="84" width="64" height="10" rx="5" fill="white" opacity=".15"/>
+            <rect x="28" y="100" width="44" height="10" rx="5" fill="white" opacity=".1"/>
+          </svg>
+        </div>
+        <div class="gift-body">
+          <div class="gift-name">Birthday Ready 🎂</div>
+          <div class="gift-em">"Everything sorted"</div>
+          <div class="gift-contents">
+            <div class="gift-contents-label">What's inside</div>
+            <div class="gift-contents-list">
+              <span class="gift-content-tag">Cake</span>
+              <span class="gift-content-tag">Candle</span>
+              <span class="gift-content-tag">Note</span>
+              <span class="gift-content-tag">Snacks</span>
+              <span class="gift-content-tag">Gift bag</span>
+            </div>
+          </div>
+          <div class="gift-footer">
+            <div class="gift-price">~₦35,000</div>
+            <a href="https://cbl.link/Qdh3fD8" class="btn btn-pay btn-sm">Send this →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="gift-card fade-up">
+        <div class="gift-visual" style="background:linear-gradient(135deg,#fff5f8,#ffe0ec);">
+          <svg viewBox="0 0 140 140" fill="none" width="140" height="140">
+            <rect x="10" y="50" width="120" height="78" rx="12" fill="#D97090"/>
+            <rect x="10" y="50" width="120" height="18" rx="9" fill="#C06080"/>
+            <rect x="60" y="28" width="20" height="34" rx="10" fill="#F0A8BC"/>
+            <path d="M70 108C70 108 28 90 28 74a24 24 0 0142 0 24 24 0 0142 0c0 16-42 34-42 34z" fill="white" opacity=".15"/>
+          </svg>
+        </div>
+        <div class="gift-body">
+          <div class="gift-name">Send Love 💘</div>
+          <div class="gift-em">"Send love in a box"</div>
+          <div class="gift-contents">
+            <div class="gift-contents-label">What's inside</div>
+            <div class="gift-contents-list">
+              <span class="gift-content-tag">Cake</span>
+              <span class="gift-content-tag">Note</span>
+              <span class="gift-content-tag">Chocolates</span>
+              <span class="gift-content-tag">Ribbon</span>
+            </div>
+          </div>
+          <div class="gift-footer">
+            <div class="gift-price">~₦23,000</div>
+            <a href="https://cbl.link/Qdh3fD8" class="btn btn-pay btn-sm">Send this →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="gift-card fade-up">
+        <div class="gift-visual" style="background:linear-gradient(135deg,#f0fff5,#d8f5e4);">
+          <svg viewBox="0 0 140 140" fill="none" width="140" height="140">
+            <rect x="10" y="50" width="120" height="78" rx="12" fill="#50A870"/>
+            <rect x="10" y="50" width="120" height="18" rx="9" fill="#388858"/>
+            <rect x="60" y="28" width="20" height="34" rx="10" fill="#88D0A0"/>
+            <path d="M40 50 H100" stroke="white" stroke-width="2" opacity=".3"/>
+            <rect x="28" y="68" width="84" height="10" rx="5" fill="white" opacity=".2"/>
+            <rect x="28" y="84" width="54" height="10" rx="5" fill="white" opacity=".15"/>
+          </svg>
+        </div>
+        <div class="gift-body">
+          <div class="gift-name">Just Because ❤️</div>
+          <div class="gift-em">"You don't need a reason"</div>
+          <div class="gift-contents">
+            <div class="gift-contents-label">What's inside</div>
+            <div class="gift-contents-list">
+              <span class="gift-content-tag">Cake</span>
+              <span class="gift-content-tag">Note</span>
+              <span class="gift-content-tag">Small treat</span>
+              <span class="gift-content-tag">Ribbon</span>
+            </div>
+          </div>
+          <div class="gift-footer">
+            <div class="gift-price">~₦12,000</div>
+            <a href="https://cbl.link/Qdh3fD8" class="btn btn-pay btn-sm">Send this →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="gift-card fade-up">
+        <div class="gift-visual" style="background:linear-gradient(135deg,#fff0f8,#fde0f0);">
+          <svg viewBox="0 0 140 140" fill="none" width="140" height="140">
+            <rect x="10" y="50" width="120" height="78" rx="12" fill="#B860A0"/>
+            <rect x="10" y="50" width="120" height="18" rx="9" fill="#A04888"/>
+            <rect x="50" y="22" width="40" height="32" rx="8" fill="#D890C0"/>
+            <path d="M50 38 L70 50 L90 38" stroke="#A04888" stroke-width="1.5"/>
+            <path d="M70 22 L76 28 L64 28 Z" fill="#A04888"/>
+          </svg>
+        </div>
+        <div class="gift-body">
+          <div class="gift-name">I Miss You 💌</div>
+          <div class="gift-em">"Say it without overthinking"</div>
+          <div class="gift-contents">
+            <div class="gift-contents-label">What's inside</div>
+            <div class="gift-contents-list">
+              <span class="gift-content-tag">Cake</span>
+              <span class="gift-content-tag">Handwritten note</span>
+              <span class="gift-content-tag">Ribbon</span>
+            </div>
+          </div>
+          <div class="gift-footer">
+            <div class="gift-price">~₦13,000</div>
+            <a href="https://cbl.link/Qdh3fD8" class="btn btn-pay btn-sm">Send this →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="gift-card fade-up">
+        <div class="gift-visual" style="background:linear-gradient(135deg,#fffbf0,#fff3d0);">
+          <svg viewBox="0 0 140 140" fill="none" width="140" height="140">
+            <rect x="10" y="50" width="120" height="78" rx="12" fill="#D4A040"/>
+            <rect x="10" y="50" width="120" height="18" rx="9" fill="#B88820"/>
+            <rect x="60" y="28" width="20" height="34" rx="10" fill="#F0CC70"/>
+            <path d="M40 50 H100" stroke="white" stroke-width="2" opacity=".3"/>
+          </svg>
+        </div>
+        <div class="gift-body">
+          <div class="gift-name">Simple Surprise 🎁</div>
+          <div class="gift-em">"Simple. Still special."</div>
+          <div class="gift-contents">
+            <div class="gift-contents-label">What's inside</div>
+            <div class="gift-contents-list">
+              <span class="gift-content-tag">Cake</span>
+              <span class="gift-content-tag">Note</span>
+              <span class="gift-content-tag">Bow</span>
+            </div>
+          </div>
+          <div class="gift-footer">
+            <div class="gift-price">~₦14,000</div>
+            <a href="https://cbl.link/Qdh3fD8" class="btn btn-pay btn-sm">Send this →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="gift-card fade-up">
+        <div class="gift-visual" style="background:linear-gradient(135deg,#f0f4ff,#dce8ff);">
+          <svg viewBox="0 0 140 140" fill="none" width="140" height="140">
+            <rect x="10" y="50" width="120" height="78" rx="12" fill="#4060C8"/>
+            <rect x="10" y="50" width="120" height="18" rx="9" fill="#2848A8"/>
+            <rect x="60" y="28" width="20" height="34" rx="10" fill="#8090D8"/>
+            <path d="M40 50 H100" stroke="white" stroke-width="2" opacity=".3"/>
+            <rect x="28" y="68" width="84" height="10" rx="5" fill="white" opacity=".2"/>
+            <rect x="28" y="84" width="64" height="10" rx="5" fill="white" opacity=".15"/>
+            <rect x="28" y="100" width="44" height="10" rx="5" fill="white" opacity=".1"/>
+          </svg>
+        </div>
+        <div class="gift-body">
+          <div class="gift-name">Corporate Simple 🧾</div>
+          <div class="gift-em">"A thoughtful gesture"</div>
+          <div class="gift-contents">
+            <div class="gift-contents-label">What's inside</div>
+            <div class="gift-contents-list">
+              <span class="gift-content-tag">Signature cake</span>
+              <span class="gift-content-tag">Note</span>
+              <span class="gift-content-tag">Snacks</span>
+              <span class="gift-content-tag">Premium bag</span>
+            </div>
+          </div>
+          <div class="gift-footer">
+            <div class="gift-price">~₦45,000</div>
+            <a href="https://cbl.link/Qdh3fD8" class="btn btn-pay btn-sm">Send this →</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══ CUSTOM ORDERS ══ -->
+<div class="custom-section full-bleed" id="custom">
+  <div class="custom-inner">
+    <span class="custom-label">✏️ Custom Orders</span>
+    <h2 class="custom-title">Want something unique?</h2>
+    <p class="custom-sub">Need a specific name, colour, or design? This is your entry point. Chat with us on WhatsApp — we'll sort it out fast.</p>
+    <a href="https://cbl.link/zqhULGY" class="custom-btn">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M10 1.5C5.3 1.5 1.5 5.3 1.5 10c0 1.5.4 3 1.1 4.2L1.5 18.5l4.4-1.1C7 18.1 8.5 18.5 10 18.5c4.7 0 8.5-3.8 8.5-8.5S14.7 1.5 10 1.5z" fill="#C85A7A"/>
+        <path d="M7.5 6.5c-.2-.5-.4-.5-.6-.5H6.3c-.2 0-.5.1-.7.3C5.4 6.5 4.5 7.4 4.5 9.1c0 1.7 1.3 3.4 1.5 3.6.2.2 2.5 4 6.2 5.4.9.3 1.5.5 2 .4.5-.1 1.6-.7 1.8-1.3.2-.6.2-1.2.2-1.3l-.5-.2-1.8-.9c-.2-.1-.5-.1-.6.3l-.9 1.2c-.1.1-.3.2-.5.1C10 16 8 14.2 7.4 11.8c0-.2 0-.4.1-.5L8.7 10c.2-.2.2-.4.1-.6L7.5 6.5z" fill="white"/>
+      </svg>
+      Chat on WhatsApp →
+    </a>
+  </div>
+</div>
+
+<!-- ══ FINAL CTA ══ -->
+<div class="final-section full-bleed" id="order">
+  <div class="final-inner">
+    <h2 class="final-title">Ready to send<br><em>a cake?</em></h2>
+    <p class="final-sub">Pick any option above and pay instantly.<br>Or chat for something custom. Takes less than 2 minutes either way.</p>
+    <div class="final-actions">
+      <a href="#picks" class="btn btn-pay" style="font-size:17px;padding:18px 36px;">Pick → Pay → Done ✦</a>
+      <a href="https://cbl.link/zqhULGY" class="btn btn-chat" style="font-size:17px;padding:18px 36px;">Chat for custom →</a>
+    </div>
+    <div class="final-trust">
+      <div class="final-trust-item"><span class="check">✓</span> Fast delivery</div>
+      <div class="final-trust-item"><span class="check">✓</span> Beautiful packaging</div>
+      <div class="final-trust-item"><span class="check">✓</span> No stress</div>
+      <div class="final-trust-item"><span class="check">✓</span> Note included free</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-logo">BeqaBakes</div>
+  <div class="footer-tag">Because Beqa dey Bake.</div>
+  <div class="footer-links">
+    <a href="#picks" class="footer-link">Quick Picks</a>
+    <a href="#bento" class="footer-link">Bentos</a>
+    <a href="#signature" class="footer-link">Signature</a>
+    <a href="#gifts" class="footer-link">Gift Sets</a>
+    <a href="https://cbl.link/zqhULGY" class="footer-link">Custom Order</a>
+    <a href="https://cbl.link/Qdh3fD8" class="footer-link">Order Now</a>
+  </div>
+</footer>
+
+<script>
+// Scroll-triggered fade-ups
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) { e.target.classList.add('visible'); }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+// Nav active state on scroll
+const sections = ['hero','how','picks','bento','signature','gifts','custom','order'];
+window.addEventListener('scroll', () => {
+  const y = window.scrollY + 120;
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if(!el) return;
+    if(y >= el.offsetTop && y < el.offsetTop + el.offsetHeight) {
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    }
+  });
+});
+</script>
+</body>
+</html>
